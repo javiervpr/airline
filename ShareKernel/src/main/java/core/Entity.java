@@ -1,7 +1,6 @@
 package core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,9 +9,9 @@ public abstract class Entity {
     public UUID id;
     public final List<DomainEvent> domainEvents;
 
-    protected Entity(List<DomainEvent> domainEvents) {
+    protected Entity() {
         id = UUID.randomUUID();
-        this.domainEvents = domainEvents;
+        domainEvents = new ArrayList<>();
     }
 
     public void addDomainEvent(DomainEvent event) {
