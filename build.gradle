@@ -16,8 +16,14 @@ project(':ShareKernel'){
     dependencies {}
 }
 
-project(':CheckIn') {
+project(':CheckInDomain') {
     dependencies {
         implementation project(':ShareKernel')
+    }
+}
+
+project(':CheckIn.Application') {
+    dependencies {
+        implementation project(':ShareKernel') ,project(':CheckInDomain')
     }
 }

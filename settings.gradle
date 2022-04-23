@@ -1,3 +1,5 @@
 rootProject.name = 'Aerolinea'
-include 'ShareKernel', 'CheckIn'
+include 'ShareKernel', 'CheckInDomain'
+include 'CheckIn.Application'
+include 'CheckIn.Infraestructure'
 
