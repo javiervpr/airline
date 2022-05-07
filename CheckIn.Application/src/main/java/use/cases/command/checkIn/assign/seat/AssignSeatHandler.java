@@ -9,6 +9,7 @@ import factories.seat.SeatFactory;
 import model.CheckIn;
 import model.Passanger;
 import model.Seat;
+import model.SeatStatus;
 import org.springframework.stereotype.Component;
 import repositories.CheckInRepository;
 import repositories.PassangerRepository;
@@ -37,27 +38,9 @@ public class AssignSeatHandler implements  Command.Handler<AssignSeatCommand, UU
     @Override
     public UUID handle(AssignSeatCommand request) {
         try {
-            for (SeatDto seatDto: request.checkInDto.avaibleSeats) {
-                Seat seat = seatFactory.create(seatDto.code, seatDto.type, seatDto.status,request.checkInDto.flightId);
-                seatRepository.update(seat);
-            }
-
-            Passanger passanger = this.passangerRepository.get(UUID.fromString(request.checkInDto.passanger.id));
-
-            List<Seat> avaibleSeats = request.checkInDto.avaibleSeats.stream().map(seatDto -> {
-                try {
-                    return seatFactory.create(seatDto.code, seatDto.type, seatDto.status, request.checkInDto.flightId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }).toList();
 
             CheckIn checkIn = checkInRepository.findByPassangerAndFlightId(UUID.fromString(request.checkInDto.passanger.id),
                                                             UUID.fromString(request.checkInDto.flightId));
-            if (checkIn == null){
-                checkIn = checkInFactory.create(UUID.fromString(request.checkInDto.flightId), avaibleSeats, passanger);
-            }
 
             checkIn.assignSeat(UUID.fromString(request.checkInDto.seat.code));
             checkInRepository.update(checkIn);
