@@ -18,7 +18,6 @@ public class BaggageJpaModel {
     private String type;
 
     @ManyToOne()
-//    @JoinColumn(name = , nullable = false)
     private CheckInJpaModel checkIn;
 
     public UUID getId() {
