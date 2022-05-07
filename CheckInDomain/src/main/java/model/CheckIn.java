@@ -16,7 +16,7 @@ public class CheckIn extends AggregateRoot {
     private UUID flightId;
     private Date date;
     private Seat seat;
-    private Baggage baggage;
+    private List<Baggage> baggages;
     private List<Seat> avaibleSeats;
     private Passanger passanger;
 
@@ -28,12 +28,12 @@ public class CheckIn extends AggregateRoot {
     }
 
 
-    public void assignSeat(UUID seatId) throws BusinessRuleValidationException {
-         Seat targetSeat = avaibleSeats.stream().filter(s -> s.id.equals(seatId)).findFirst().orElse(null);
+    public void assignSeat(UUID seatCode) throws BusinessRuleValidationException {
+         Seat targetSeat = avaibleSeats.stream().filter(s -> s.getCode().equals(seatCode)).findFirst().orElse(null);
          if (targetSeat == null)
-             throw new BusinessRuleValidationException("This seatId is not valid" + seatId);
+             throw new BusinessRuleValidationException("This seatCode is not valid" + seatCode);
          if (targetSeat.getStatus().equals(SeatStatus.BOOKED)) {
-             throw new BusinessRuleValidationException("This seatId is already booked" + seatId);
+             throw new BusinessRuleValidationException("This seatCode is already booked" + seatCode);
          }
          if (passanger.isNeedAssistance()) {
              targetSeat = this.avaibleSeats.stream()
@@ -49,13 +49,13 @@ public class CheckIn extends AggregateRoot {
 
 
     public void tagBaggage(float weight) throws BusinessRuleValidationException {
-        this.baggage = new Baggage(weight);
+        this.baggages.add(new Baggage(weight));
         addDomainEvent(new BaggageTagged(this));
         completeCheckIn();
     }
 
     public void completeCheckIn() {
-        if (this.baggage != null && this.seat != null)
+        if (this.baggages != null && this.seat != null)
             addDomainEvent(new CheckInCompleted(this));
     }
 
@@ -71,8 +71,8 @@ public class CheckIn extends AggregateRoot {
         return seat;
     }
 
-    public Baggage getBaggage() {
-        return baggage;
+    public List<Baggage> getBaggages() {
+        return baggages;
     }
 
     public List<Seat> getAvaibleSeats() {

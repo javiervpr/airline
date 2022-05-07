@@ -27,3 +27,18 @@ project(':CheckIn.Application') {
         implementation project(':ShareKernel') ,project(':CheckInDomain')
     }
 }
+
+project('CheckIn.Infraestructure') {
+    dependencies {
+        implementation project(':ShareKernel') ,project(':CheckInDomain'), project(':CheckIn.Application')
+    }
+}
+
+project('CheckInApi') {
+    dependencies {
+        implementation  project(':ShareKernel') ,
+                        project(':CheckInDomain'),
+                        project(':CheckIn.Infraestructure'),
+                        project(':CheckIn.Application')
+    }
+}

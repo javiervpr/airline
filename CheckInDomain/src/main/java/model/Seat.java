@@ -4,20 +4,24 @@ import core.BusinessRuleValidationException;
 import core.Entity;
 import value.objects.SeatCodeValue;
 
+import java.util.UUID;
+
 public class Seat extends Entity {
 
-    private SeatCodeValue code;
+    private UUID code;
     private SeatType type;
     private SeatStatus status;
+    private UUID flightId;
 
-    public Seat(String code, SeatType type, SeatStatus status) throws BusinessRuleValidationException {
-        this.code = new SeatCodeValue(code);
+    public Seat(UUID code, SeatType type, SeatStatus status, UUID flightId) throws BusinessRuleValidationException {
+        this.code = code;
         this.type = type;
         this.status = status;
+        this.flightId = flightId;
     }
 
-    public String getCode() {
-        return code.getCode();
+    public UUID getCode() {
+        return code;
     }
 
     public SeatType getType() {
@@ -26,5 +30,9 @@ public class Seat extends Entity {
 
     public SeatStatus getStatus() {
         return status;
+    }
+
+    public UUID getFlightId() {
+        return flightId;
     }
 }

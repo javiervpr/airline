@@ -25,6 +25,15 @@ public class Passanger extends Entity {
         this.needAssistance = needAssistance;
     }
 
+    public Passanger(UUID id, String name, String lastname, Date birthday, String ci, boolean needAssistance) throws BusinessRuleValidationException {
+        this.id = id;
+        this.name = new PersonNameValue(name);
+        this.lastname = new PersonNameValue(lastname);
+        this.birthday = birthday;
+        this.ci = new CIValue(ci);
+        this.needAssistance = needAssistance;
+    }
+
     public String getName() {
         return name.getName();
     }

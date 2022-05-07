@@ -1,51 +1,71 @@
 package use.cases.command.checkIn.assign.seat;
 
-import core.BusinessRuleValidationException;
+import an.awesome.pipelinr.Command;
+import dtos.SeatDto;
 import factories.check.in.CheckInFactory;
-import factories.passanger.PassangerFactory;
+import factories.check.in.CreateCheckIn;
+import factories.seat.CreateSeat;
 import factories.seat.SeatFactory;
 import model.CheckIn;
 import model.Passanger;
 import model.Seat;
+import org.springframework.stereotype.Component;
 import repositories.CheckInRepository;
+import repositories.PassangerRepository;
+import repositories.SeatRepository;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-public class AssignSeatHandler {
+@Component
+public class AssignSeatHandler implements  Command.Handler<AssignSeatCommand, UUID> {
 
     private final CheckInRepository checkInRepository;
+    private final PassangerRepository passangerRepository;
+    private final SeatRepository seatRepository;
     private final CheckInFactory checkInFactory;
-    private final PassangerFactory passangerFactory;
     private final SeatFactory seatFactory;
 
-    public AssignSeatHandler(CheckInRepository checkInRepository, CheckInFactory checkInFactory, PassangerFactory passangerFactory, SeatFactory seatFactory) {
+    public AssignSeatHandler(CheckInRepository checkInRepository, PassangerRepository passangerRepository, SeatRepository seatRepository) {
         this.checkInRepository = checkInRepository;
-        this.checkInFactory = checkInFactory;
-        this.passangerFactory = passangerFactory;
-        this.seatFactory = seatFactory;
+        this.passangerRepository = passangerRepository;
+        this.seatRepository = seatRepository;
+        this.checkInFactory = new CreateCheckIn();
+        this.seatFactory = new CreateSeat();
     }
 
-    public UUID handle(AssignSeatCommand request) throws BusinessRuleValidationException {
-        Passanger passanger = passangerFactory.create(request.checkInDto.getPassanger().getName(),
-                                                    request.checkInDto.getPassanger().getLastname(),
-                                                    request.checkInDto.getPassanger().getBirthday(),
-                                                    request.checkInDto.getPassanger().getCi(),
-                                                    request.checkInDto.getPassanger().isNeedAssistance()
-                );
-        List<Seat> avaibleSeats = request.checkInDto.getAvaibleSeats().stream().map(seatDto -> {
-            try {
-                return seatFactory.create(request.checkInDto.getSeat().getCode(), request.checkInDto.getSeat().getType(), request.checkInDto.getSeat().getStatus());
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+    @Override
+    public UUID handle(AssignSeatCommand request) {
+        try {
+            for (SeatDto seatDto: request.checkInDto.avaibleSeats) {
+                Seat seat = seatFactory.create(seatDto.code, seatDto.type, seatDto.status,request.checkInDto.flightId);
+                seatRepository.update(seat);
             }
-        }).collect(Collectors.toList());
 
-        CheckIn checkIn = checkInFactory.create(UUID.fromString(request.checkInDto.getFlightId()), avaibleSeats, passanger);
-        Seat seat = seatFactory.create(request.checkInDto.getSeat().getCode(), request.checkInDto.getSeat().getType(), request.checkInDto.getSeat().getStatus());
-        checkIn.assignSeat(UUID.fromString(seat.getCode()));
-        return checkIn.getId();
+            Passanger passanger = this.passangerRepository.get(UUID.fromString(request.checkInDto.passanger.id));
+
+            List<Seat> avaibleSeats = request.checkInDto.avaibleSeats.stream().map(seatDto -> {
+                try {
+                    return seatFactory.create(seatDto.code, seatDto.type, seatDto.status, request.checkInDto.flightId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }).toList();
+
+            CheckIn checkIn = checkInRepository.findByPassangerAndFlightId(UUID.fromString(request.checkInDto.passanger.id),
+                                                            UUID.fromString(request.checkInDto.flightId));
+            if (checkIn == null){
+                checkIn = checkInFactory.create(UUID.fromString(request.checkInDto.flightId), avaibleSeats, passanger);
+            }
+
+            checkIn.assignSeat(UUID.fromString(request.checkInDto.seat.code));
+            checkInRepository.update(checkIn);
+            return checkIn.getId();
+        } catch ( Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
 }

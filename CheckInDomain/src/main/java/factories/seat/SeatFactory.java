@@ -7,5 +7,5 @@ import model.SeatType;
 
 public interface SeatFactory {
 
-    Seat create(String code, String type, String status) throws BusinessRuleValidationException;
+    Seat create(String code, String type, String status, String flightId) throws BusinessRuleValidationException;
 }

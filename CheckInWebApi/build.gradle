@@ -14,7 +14,15 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+//    implementation 'org.hibernate:hibernate-core:6.0.0.Final'
+//    implementation 'org.springframework:spring-orm:5.3.19'
+//    implementation 'org.apache.tomcat:tomcat-dbcp:10.0.20'
+//    implementation 'com.sun.xml.bind:jaxb-impl:3.0.2'
+//    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
+//    compileOnly 'jakarta.platform:jakarta.jakartaee-api:8.0.0'
+//    runtimeOnly 'org.postgresql:postgresql'
+//    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {

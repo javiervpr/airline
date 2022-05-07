@@ -1,8 +1,10 @@
 package use.cases.command.checkIn.assign.seat;
 
+import an.awesome.pipelinr.Command;
 import dtos.CheckInDto;
+import java.util.UUID;
 
-public class AssignSeatCommand {
+public class AssignSeatCommand implements Command<UUID> {
 
     CheckInDto checkInDto;
 
