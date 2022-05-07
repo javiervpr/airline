@@ -4,6 +4,7 @@ import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Notification;
 import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Pipelinr;
+import infraestructure.repositories.baggage.BaggageJpaRepository;
 import infraestructure.repositories.check.in.CheckInJpaRepository;
 import infraestructure.repositories.passanger.PassangerJpaRepository;
 import infraestructure.repositories.seat.SeatJpaRepository;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import repositories.BaggageRepository;
 import repositories.CheckInRepository;
 import repositories.PassangerRepository;
 import repositories.SeatRepository;
@@ -53,6 +55,9 @@ public class CheckInApiApplication {
 
     @Bean(name = "seatRepository")
     public SeatRepository seatRepository() { return new SeatJpaRepository(); }
+
+    @Bean(name = "baggageRepository")
+    public BaggageRepository baggageRepository() { return new BaggageJpaRepository(); }
 
     @Bean
     Pipeline pipeline(ObjectProvider<Command.Handler> commandHandlers, ObjectProvider<Notification.Handler> notificationHandlers, ObjectProvider<Command.Middleware> middlewares) {

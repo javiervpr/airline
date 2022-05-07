@@ -18,7 +18,7 @@ public class CheckInJpaModel {
     @Column(nullable = false)
     private Date date;
 
-    @OneToOne
+    @OneToOne(optional = true)
     private SeatJpaModel seat;
     @OneToOne
     private PassangerJpaModel passanger;

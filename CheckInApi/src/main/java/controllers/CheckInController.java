@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import repositories.CheckInRepository;
 import use.cases.command.checkIn.assign.seat.AssignSeatCommand;
+import use.cases.command.checkIn.create.checkin.CreateCheckInCommand;
+import use.cases.command.checkIn.tag.baggage.TagBaggaggeCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
@@ -30,5 +32,15 @@ public class CheckInController {
         return assignSeatCommand.execute(pipeline);
     }
 
+    @PostMapping("/tag-baggage")
+    public UUID tagBaggage(@RequestBody CheckInDto checkInDto) {
+        TagBaggaggeCommand tagBaggaggeCommand = new TagBaggaggeCommand(checkInDto);
+        return tagBaggaggeCommand.execute(pipeline);
+    }
 
+    @PostMapping("/create-checkin")
+    public UUID createCheckIn(@RequestBody CheckInDto checkInDto) {
+        CreateCheckInCommand createCheckInCommand = new CreateCheckInCommand(checkInDto);
+        return createCheckInCommand.execute(pipeline);
+    }
 }

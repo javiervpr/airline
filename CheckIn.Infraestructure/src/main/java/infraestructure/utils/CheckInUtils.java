@@ -18,7 +18,7 @@ public class CheckInUtils {
         for (SeatJpaModel seatJpaModel: seats) {
             seatsAvailable.add(SeatUtils.jpaModelToSeat(seatJpaModel));
         }
-        return new CheckIn(jpaModel.getFlightId(),  seatsAvailable, PassangerUtils.jpaModelToPassanger(jpaModel.getPassanger()));
+        return new CheckIn(jpaModel.getId(),jpaModel.getFlightId(),  seatsAvailable, PassangerUtils.jpaModelToPassanger(jpaModel.getPassanger()));
     }
 
 }

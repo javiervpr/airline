@@ -2,13 +2,13 @@ package dtos;
 
 public class BaggageDto {
 
-    public double weight;
+    public float weight;
     public String type;
 
     public BaggageDto() {
     }
 
-    public BaggageDto(double weight, String type) {
+    public BaggageDto(float weight, String type) {
         this.weight = weight;
         this.type = type;
     }

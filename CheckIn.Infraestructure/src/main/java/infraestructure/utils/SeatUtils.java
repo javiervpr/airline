@@ -12,6 +12,7 @@ import java.util.List;
 public class SeatUtils {
 
     public static SeatJpaModel seatToJpaEntity(Seat seat) {
+        if (seat == null) return null;
         SeatJpaModel seatJpaModel = new SeatJpaModel();
         seatJpaModel.setType(seat.getType().toString());
         seatJpaModel.setCode(seat.getCode());

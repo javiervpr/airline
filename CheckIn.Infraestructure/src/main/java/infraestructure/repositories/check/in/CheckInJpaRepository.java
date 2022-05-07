@@ -44,9 +44,11 @@ public class CheckInJpaRepository implements CheckInRepository {
         checkInJpaModel.setDate(checkIn.getDate());
         checkInJpaModel.setFlightId(checkIn.getFlightId());
         checkInJpaModel.setId(checkIn.getId());
-        checkInJpaModel.setSeat(SeatUtils.seatToJpaEntity(checkIn.getSeat()));
         checkInJpaModel.setPassanger(PassangerUtils.passangerToJpaEntity(checkIn.getPassanger()));
-        checkInJpaModel.setBaggages(BaggageUtils.baggagesToJpaEntities(checkIn.getBaggages()));
+        checkInJpaModel.setBaggages(BaggageUtils.baggagesToJpaEntities(checkIn.getBaggages(),checkInJpaModel));
+        if (checkIn.getSeat() != null){
+            checkInJpaModel.setSeat(SeatUtils.seatToJpaEntity(checkIn.getSeat()));
+        }
         return  checkInCrudRepository.save(checkInJpaModel).getId();
     }
 

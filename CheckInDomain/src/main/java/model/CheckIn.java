@@ -27,6 +27,14 @@ public class CheckIn extends AggregateRoot {
         this.date = new Date();
     }
 
+    public CheckIn(UUID id, UUID flightId, List<Seat> avaibleSeats, Passanger passanger) {
+        this.id = id;
+        this.flightId = flightId;
+        this.avaibleSeats = avaibleSeats;
+        this.passanger = passanger;
+        this.date = new Date();
+    }
+
 
     public void assignSeat(UUID seatCode) throws BusinessRuleValidationException {
          Seat targetSeat = avaibleSeats.stream().filter(s -> s.getCode().equals(seatCode)).findFirst().orElse(null);
@@ -49,7 +57,7 @@ public class CheckIn extends AggregateRoot {
 
 
     public void tagBaggage(float weight) throws BusinessRuleValidationException {
-        this.baggages.add(new Baggage(weight));
+        this.baggages.add(new Baggage(weight, this.id));
         addDomainEvent(new BaggageTagged(this));
         completeCheckIn();
     }

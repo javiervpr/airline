@@ -10,10 +10,12 @@ public class Baggage extends Entity {
 
     private BaggageWeightValue weight;
     private BaggageType type;
+    private UUID checkInId;
 
-    public Baggage(float weight) throws BusinessRuleValidationException {
+    public Baggage(float weight, UUID checkInId) throws BusinessRuleValidationException {
         this.id = UUID.randomUUID();
         this.weight = new BaggageWeightValue(weight);
+        this.checkInId = checkInId;
         if (weight > 10 )
             type = BaggageType.CARRY_ON;
         else
@@ -26,5 +28,9 @@ public class Baggage extends Entity {
 
     public BaggageType getType() {
         return type;
+    }
+
+    public UUID getCheckInId() {
+        return checkInId;
     }
 }

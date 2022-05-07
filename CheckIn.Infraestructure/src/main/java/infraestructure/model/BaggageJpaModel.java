@@ -12,7 +12,7 @@ public class BaggageJpaModel {
     private UUID id;
 
     @Column(nullable = false)
-    private double weight;
+    private float weight;
 
     @Column(nullable = false)
     private String type;
@@ -29,11 +29,11 @@ public class BaggageJpaModel {
         this.id = id;
     }
 
-    public double getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
