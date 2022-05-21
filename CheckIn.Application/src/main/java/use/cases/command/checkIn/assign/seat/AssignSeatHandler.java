@@ -1,21 +1,16 @@
 package use.cases.command.checkIn.assign.seat;
 
 import an.awesome.pipelinr.Command;
-import dtos.SeatDto;
 import factories.check.in.CheckInFactory;
 import factories.check.in.CreateCheckIn;
 import factories.seat.CreateSeat;
 import factories.seat.SeatFactory;
 import model.CheckIn;
-import model.Passanger;
-import model.Seat;
-import model.SeatStatus;
 import org.springframework.stereotype.Component;
 import repositories.CheckInRepository;
 import repositories.PassangerRepository;
 import repositories.SeatRepository;
 
-import java.util.List;
 import java.util.UUID;
 
 @Component
