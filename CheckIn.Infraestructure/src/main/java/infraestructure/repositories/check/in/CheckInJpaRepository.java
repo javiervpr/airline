@@ -5,6 +5,7 @@ import infraestructure.model.BaggageJpaModel;
 import infraestructure.model.CheckInJpaModel;
 import infraestructure.model.PassangerJpaModel;
 import infraestructure.model.SeatJpaModel;
+
 import java.util.Collections;
 
 import infraestructure.repositories.passanger.PassangerCrudRepository;
@@ -17,12 +18,9 @@ import model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import repositories.CheckInRepository;
-import repositories.PassangerRepository;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Repository
 public class CheckInJpaRepository implements CheckInRepository {
@@ -38,18 +36,18 @@ public class CheckInJpaRepository implements CheckInRepository {
 
     @Override
     @Transactional
-    public UUID update(CheckIn checkIn)  {
+    public UUID update(CheckIn checkIn) {
         CheckInJpaModel checkInJpaModel = new CheckInJpaModel();
         checkInJpaModel.setFlightId(checkIn.getFlightId());
         checkInJpaModel.setDate(checkIn.getDate());
         checkInJpaModel.setFlightId(checkIn.getFlightId());
         checkInJpaModel.setId(checkIn.getId());
         checkInJpaModel.setPassanger(PassangerUtils.passangerToJpaEntity(checkIn.getPassanger()));
-        checkInJpaModel.setBaggages(BaggageUtils.baggagesToJpaEntities(checkIn.getBaggages(),checkInJpaModel));
-        if (checkIn.getSeat() != null){
+        checkInJpaModel.setBaggages(BaggageUtils.baggagesToJpaEntities(checkIn.getBaggages(), checkInJpaModel));
+        if (checkIn.getSeat() != null) {
             checkInJpaModel.setSeat(SeatUtils.seatToJpaEntity(checkIn.getSeat()));
         }
-        return  checkInCrudRepository.save(checkInJpaModel).getId();
+        return checkInCrudRepository.save(checkInJpaModel).getId();
     }
 
     @Override
@@ -60,9 +58,9 @@ public class CheckInJpaRepository implements CheckInRepository {
     @Override
     public CheckIn findByPassangerAndFlightId(UUID passenger, UUID flightId) throws BusinessRuleValidationException {
         PassangerJpaModel passangerJpaModel = passangerCrudRepository.findById(passenger).orElse(null);
-        if (passangerJpaModel == null ) return null;
+        if (passangerJpaModel == null) return null;
         CheckInJpaModel model = checkInCrudRepository.findByPassangerAndFlightId(passangerJpaModel, flightId);
-        if(model != null) {
+        if (model != null) {
             List<SeatJpaModel> seatsAvailable = seatCrudRepository.findByFlightIdAndStatus(flightId, SeatStatus.FREE.toString());
             return CheckInUtils.jpaModelToCheckIn(model, seatsAvailable);
         }

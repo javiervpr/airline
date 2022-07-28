@@ -13,7 +13,7 @@ public class BaggageWeightRule implements BusinessRule {
 
     @Override
     public boolean isValid() {
-        return weight > 0 && weight < MAX_WEIGHT;
+        return weight > 0 && weight <= MAX_WEIGHT;
     }
 
     @Override

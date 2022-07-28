@@ -15,4 +15,13 @@ public class CheckInDto {
 
     public CheckInDto() { }
 
+    public CheckInDto(String checkInId, String flightId, Date date, SeatDto seat, List<BaggageDto> baggages, List<SeatDto> avaibleSeats, PassangerDto passanger) {
+        this.checkInId = checkInId;
+        this.flightId = flightId;
+        this.date = date;
+        this.seat = seat;
+        this.baggages = baggages;
+        this.avaibleSeats = avaibleSeats;
+        this.passanger = passanger;
+    }
 }

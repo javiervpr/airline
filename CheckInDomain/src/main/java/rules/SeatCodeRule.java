@@ -18,6 +18,6 @@ public class SeatCodeRule implements BusinessRule {
 
     @Override
     public String getMessage() {
-        return "The seat code lenght can not be greater than " + MAX_LENGHT;
+        return "The seat code length can not be greater than " + MAX_LENGHT;
     }
 }

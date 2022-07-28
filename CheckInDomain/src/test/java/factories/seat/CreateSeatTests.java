@@ -1,8 +1,6 @@
 package factories.seat;
 
 import core.BusinessRuleValidationException;
-import factories.passanger.CreatePassanger;
-import model.Passanger;
 import model.Seat;
 import model.SeatStatus;
 import model.SeatType;
@@ -10,11 +8,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CreateSeatTests {
 

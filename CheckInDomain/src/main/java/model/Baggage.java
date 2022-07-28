@@ -17,9 +17,9 @@ public class Baggage extends Entity {
         this.weight = new BaggageWeightValue(weight);
         this.checkInId = checkInId;
         if (weight > 10 )
-            type = BaggageType.CARRY_ON;
-        else
             type = BaggageType.CHECKED_BAG;
+        else
+            type = BaggageType.CARRY_ON;
     }
 
     public float getWeight() {

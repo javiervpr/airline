@@ -45,6 +45,7 @@ public class CreateCheckInHandler implements Command.Handler<CreateCheckInComman
                 return checkIn.id;
             }
             Passanger passanger = this.passangerRepository.get(UUID.fromString(request.checkInDto.passanger.id));
+            //TODO: Validate passanger
             List<Seat> avaibleSeats = seatRepository.findByFlightIdAndStatus(UUID.fromString(request.checkInDto.flightId), SeatStatus.FREE.toString());
             checkIn = checkInFactory.create(UUID.fromString(request.checkInDto.flightId), avaibleSeats, passanger);
             checkInRepository.update(checkIn);
