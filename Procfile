@@ -1,1 +1,2 @@
-web: java -jar CheckInApi/build/libs/check-in-api-1.0.jar
+web: java -jar build/libs/check-in-api-1.0.all.jar
+worker: java -jar build/libs/infraestructure-1.0.all.jar
