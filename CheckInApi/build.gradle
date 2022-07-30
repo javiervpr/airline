@@ -23,3 +23,11 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+clean.doLast {
+    delete rootProject.buildDir
+}
+task copyToLib(type: Copy) {
+    from "$buildDir/libs"
+    into "$rootProject.buildDir/libs"
+}
