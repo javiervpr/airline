@@ -5,23 +5,18 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
-
+name: Build
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
-
-permissions:
-  contents: read
-
+    types: [opened, reopened]
 jobs:
   build:
-
+    name: Build
     runs-on: windows-latest
-
-      steps:
+    steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
