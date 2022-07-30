@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'application'
 }
 
 group 'com.javier'
@@ -12,6 +13,8 @@ archivesBaseName  = 'check-in-api'
 repositories {
     mavenCentral()
 }
+
+mainClassName = 'com.javier.checkinapi.CheckInApiApplication'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -24,11 +27,4 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-clean.doLast {
-    delete rootProject.buildDir
-}
-task copyToLib(type: Copy) {
-    from "$buildDir/libs"
-    into "$rootProject.buildDir/libs"
-}
+apply from: file("$rootProject.projectDir/gradle/heroku/stage.gradle")

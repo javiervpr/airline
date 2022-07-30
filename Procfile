@@ -1,1 +1,2 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/check-in-api-1.0.jar
+web: java -jar build/libs/check-in-api-1.0.all.jar
+worker: java -jar build/libs/check-in-api-1.0.all.jar

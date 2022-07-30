@@ -1,16 +1,26 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
+//buildscript {
+//    dependencies {
+//        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+//    }
+//}
+
 plugins {
     id 'java'
     id "org.sonarqube" version "3.4.0.2513"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
+
 group 'com.javier'
 version '1.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
+apply from: file('gradle/heroku/clean.gradle')
 
 subprojects {
+    apply plugin: 'com.github.johnrengelman.shadow'
     apply plugin: 'java'
     apply plugin: 'jacoco'
 
@@ -33,7 +43,7 @@ subprojects {
             xml.enabled true
         }
     }
-
+//    apply from: file("$rootProject.projectDir/gradle/heroku/stage.gradle")
 }
 project(':ShareKernel') {
     dependencies {}
@@ -76,5 +86,6 @@ sonarqube {
 }
 
 
-task stage(dependsOn: ['CheckInApi:copyToLib','build', 'clean'])
-build.mustRunAfter clean
+//task stage(dependsOn: ['CheckInApi:copyToLib','build', 'clean'])
+//task stage(dependsOn: ['clean', 'shadowJar'])
+//build.mustRunAfter clean
