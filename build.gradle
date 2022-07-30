@@ -1,18 +1,40 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 plugins {
     id 'java'
+    id 'org.sonarqube' version '3.3'
 }
-
 group 'com.javier'
 version '1.0-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'jacoco'
+//    apply plugin: 'org.sonarqube'
+//    id "org.sonarqube" version "3.3”
 
     repositories {
         mavenCentral()
     }
 
+    test {
+        finalizedBy jacocoTestReport
+        testLogging {
+            events TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED
+        }
+    }
+    jacocoTestReport {
+        dependsOn test
+        reports {
+            xml.enabled true
+        }
+    }
 }
-project(':ShareKernel'){
+project(':ShareKernel') {
     dependencies {}
 }
 
@@ -24,21 +46,23 @@ project(':CheckInDomain') {
 
 project(':CheckIn.Application') {
     dependencies {
-        implementation project(':ShareKernel') ,project(':CheckInDomain')
+        implementation project(':ShareKernel'), project(':CheckInDomain')
+        testImplementation project(':CheckInDomain').sourceSets.test.output
     }
 }
 
 project('CheckIn.Infraestructure') {
     dependencies {
-        implementation project(':ShareKernel') ,project(':CheckInDomain'), project(':CheckIn.Application')
+        implementation project(':ShareKernel'), project(':CheckInDomain'), project(':CheckIn.Application')
     }
 }
 
 project('CheckInApi') {
     dependencies {
-        implementation  project(':ShareKernel') ,
-                        project(':CheckInDomain'),
-                        project(':CheckIn.Infraestructure'),
-                        project(':CheckIn.Application')
+        implementation project(':ShareKernel'),
+                project(':CheckInDomain'),
+                project(':CheckIn.Infraestructure'),
+                project(':CheckIn.Application')
     }
 }
+

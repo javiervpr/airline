@@ -1,6 +1,6 @@
 package core;
 
 public interface BusinessRule {
-    boolean isValid();
-     String getMessage();
+  boolean isValid();
+  String getMessage();
 }

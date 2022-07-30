@@ -5,14 +5,14 @@ import core.ValueObject;
 
 public class SeatCodeValue extends ValueObject {
 
-    private final String code;
+  private final String code;
 
-    public SeatCodeValue(String code) throws BusinessRuleValidationException {
-        checkRule(new rules.SeatCodeRule(code));
-        this.code = code;
-    }
+  public SeatCodeValue(String code) throws BusinessRuleValidationException {
+    checkRule(new rules.SeatCodeRule(code));
+    this.code = code;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getCode() {
+    return code;
+  }
 }

@@ -5,89 +5,104 @@ import core.BusinessRuleValidationException;
 import event.BaggageTagged;
 import event.CheckInCompleted;
 import event.SeatAssigned;
-
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class CheckIn extends AggregateRoot {
 
+  private UUID flightId;
+  private Date date;
+  private Seat seat;
+  private List<Baggage> baggages;
+  private List<Seat> avaibleSeats;
+  private Passanger passanger;
 
-    private UUID flightId;
-    private Date date;
-    private Seat seat;
-    private List<Baggage> baggages;
-    private List<Seat> avaibleSeats;
-    private Passanger passanger;
+  public CheckIn(UUID flightId, List<Seat> avaibleSeats, Passanger passanger) {
+    this.flightId = flightId;
+    this.avaibleSeats = avaibleSeats;
+    this.passanger = passanger;
+    this.date = new Date();
+  }
 
-    public CheckIn(UUID flightId, List<Seat> avaibleSeats, Passanger passanger) {
-        this.flightId = flightId;
-        this.avaibleSeats = avaibleSeats;
-        this.passanger = passanger;
-        this.date = new Date();
+  public CheckIn(
+    UUID id,
+    UUID flightId,
+    List<Seat> avaibleSeats,
+    Passanger passanger
+  ) {
+    this.id = id;
+    this.flightId = flightId;
+    this.avaibleSeats = avaibleSeats;
+    this.passanger = passanger;
+    this.date = new Date();
+  }
+
+  public void assignSeat(UUID seatCode) throws BusinessRuleValidationException {
+    Seat targetSeat = avaibleSeats
+      .stream()
+      .filter(s -> s.getCode().equals(seatCode))
+      .findFirst()
+      .orElse(null);
+    if (targetSeat == null) throw new BusinessRuleValidationException(
+      "This seatCode is not valid" + seatCode
+    );
+    if (targetSeat.getStatus().equals(SeatStatus.BOOKED)) {
+      throw new BusinessRuleValidationException(
+        "This seatCode is already booked" + seatCode
+      );
     }
-
-    public CheckIn(UUID id, UUID flightId, List<Seat> avaibleSeats, Passanger passanger) {
-        this.id = id;
-        this.flightId = flightId;
-        this.avaibleSeats = avaibleSeats;
-        this.passanger = passanger;
-        this.date = new Date();
+    if (passanger.isNeedAssistance()) {
+      targetSeat =
+        this.avaibleSeats.stream()
+          .filter(s ->
+            s.getStatus().equals(SeatStatus.FREE) &&
+            s.getType().equals(SeatType.ASSISTANCE)
+          )
+          .findFirst()
+          .orElse(null);
+      if (targetSeat == null) throw new BusinessRuleValidationException(
+        "There is not assistance seat available"
+      );
     }
+    this.seat = targetSeat;
+    addDomainEvent(new SeatAssigned(this));
+    completeCheckIn();
+  }
 
+  public void tagBaggage(float weight) throws BusinessRuleValidationException {
+    this.baggages.add(new Baggage(weight, this.id));
+    addDomainEvent(new BaggageTagged(this));
+    completeCheckIn();
+  }
 
-    public void assignSeat(UUID seatCode) throws BusinessRuleValidationException {
-         Seat targetSeat = avaibleSeats.stream().filter(s -> s.getCode().equals(seatCode)).findFirst().orElse(null);
-         if (targetSeat == null)
-             throw new BusinessRuleValidationException("This seatCode is not valid" + seatCode);
-         if (targetSeat.getStatus().equals(SeatStatus.BOOKED)) {
-             throw new BusinessRuleValidationException("This seatCode is already booked" + seatCode);
-         }
-         if (passanger.isNeedAssistance()) {
-             targetSeat = this.avaibleSeats.stream()
-                     .filter(s -> s.getStatus().equals(SeatStatus.FREE)
-                     && s.getType().equals(SeatType.ASSISTANCE)).findFirst().orElse(null);
-             if (targetSeat == null)
-                 throw new BusinessRuleValidationException("There is not assistance seat available");
-         }
-        this.seat = targetSeat;
-         addDomainEvent(new SeatAssigned(this));
-         completeCheckIn();
-    }
+  public void completeCheckIn() {
+    if (this.baggages != null && this.seat != null) addDomainEvent(
+      new CheckInCompleted(this)
+    );
+  }
 
+  public UUID getFlightId() {
+    return flightId;
+  }
 
-    public void tagBaggage(float weight) throws BusinessRuleValidationException {
-        this.baggages.add(new Baggage(weight, this.id));
-        addDomainEvent(new BaggageTagged(this));
-        completeCheckIn();
-    }
+  public Date getDate() {
+    return date;
+  }
 
-    public void completeCheckIn() {
-        if (this.baggages != null && this.seat != null)
-            addDomainEvent(new CheckInCompleted(this));
-    }
+  public Seat getSeat() {
+    return seat;
+  }
 
-    public UUID getFlightId() {
-        return flightId;
-    }
+  public List<Baggage> getBaggages() {
+    return baggages;
+  }
 
-    public Date getDate() {
-        return date;
-    }
+  public List<Seat> getAvaibleSeats() {
+    return avaibleSeats;
+  }
 
-    public Seat getSeat() {
-        return seat;
-    }
-
-    public List<Baggage> getBaggages() {
-        return baggages;
-    }
-
-    public List<Seat> getAvaibleSeats() {
-        return avaibleSeats;
-    }
-
-    public Passanger getPassanger() {
-        return passanger;
-    }
+  public Passanger getPassanger() {
+    return passanger;
+  }
 }

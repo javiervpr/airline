@@ -1,13 +1,11 @@
 package repositories;
 
 import core.BusinessRuleValidationException;
+import java.util.UUID;
 import model.Passanger;
 
-import java.util.UUID;
-
 public interface PassangerRepository {
+  UUID update(Passanger passanger);
 
-    UUID update(Passanger passanger);
-
-    Passanger get(UUID id) throws BusinessRuleValidationException;
+  Passanger get(UUID id) throws BusinessRuleValidationException;
 }

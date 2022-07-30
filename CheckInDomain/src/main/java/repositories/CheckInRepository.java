@@ -1,14 +1,14 @@
 package repositories;
 
 import core.BusinessRuleValidationException;
+import java.util.UUID;
 import model.CheckIn;
 
-import java.util.UUID;
-
 public interface CheckInRepository {
-    UUID update(CheckIn checkIn);
+  UUID update(CheckIn checkIn);
 
-    CheckIn get(UUID id);
+  CheckIn get(UUID id);
 
-    CheckIn findByPassangerAndFlightId(UUID passenger, UUID flightId) throws BusinessRuleValidationException;
+  CheckIn findByPassangerAndFlightId(UUID passenger, UUID flightId)
+    throws BusinessRuleValidationException;
 }

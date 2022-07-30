@@ -7,15 +7,15 @@ import rules.StringNotNullOrEmptyRule;
 
 public class PersonNameValue extends ValueObject {
 
-    private String name;
+  private String name;
 
-    public PersonNameValue(String name) throws BusinessRuleValidationException {
-        checkRule(new StringNotNullOrEmptyRule(name));
-        checkRule(new PersonNameRule(name));
-        this.name = name;
-    }
+  public PersonNameValue(String name) throws BusinessRuleValidationException {
+    checkRule(new StringNotNullOrEmptyRule(name));
+    checkRule(new PersonNameRule(name));
+    this.name = name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 }

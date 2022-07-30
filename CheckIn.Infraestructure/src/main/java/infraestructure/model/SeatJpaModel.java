@@ -1,54 +1,57 @@
 package infraestructure.model;
 
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.UUID;
 
-@Entity()
+@Entity
 @Table(name = "seats")
 public class SeatJpaModel {
 
-    @Id
-    @Column(nullable = false)
-    private UUID code;
-    @Column(nullable = false)
-    private String type;
-    @Column(nullable = false)
-    private String status;
-    @Column(nullable = false)
-    private UUID flightId;
+  @Id
+  @Column(nullable = false)
+  private UUID code;
 
-    public UUID getCode() {
-        return code;
-    }
+  @Column(nullable = false)
+  private String type;
 
-    public void setCode(UUID code) {
-        this.code = code;
-    }
+  @Column(nullable = false)
+  private String status;
 
-    public String getType() {
-        return type;
-    }
+  @Column(nullable = false)
+  private UUID flightId;
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  public UUID getCode() {
+    return code;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public void setCode(UUID code) {
+    this.code = code;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public String getType() {
+    return type;
+  }
 
-    public UUID getFlightId() {
-        return flightId;
-    }
+  public void setType(String type) {
+    this.type = type;
+  }
 
-    public void setFlightId(UUID flightId) {
-        this.flightId = flightId;
-    }
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public UUID getFlightId() {
+    return flightId;
+  }
+
+  public void setFlightId(UUID flightId) {
+    this.flightId = flightId;
+  }
 }

@@ -1,4 +1,3 @@
 package core;
 
-public interface Repository {
-}
+public interface Repository {}

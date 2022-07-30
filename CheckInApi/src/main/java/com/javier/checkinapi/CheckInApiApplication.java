@@ -10,6 +10,7 @@ import infraestructure.repositories.passanger.PassangerJpaRepository;
 import infraestructure.repositories.seat.SeatJpaRepository;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import java.util.Arrays;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,60 +26,62 @@ import repositories.CheckInRepository;
 import repositories.PassangerRepository;
 import repositories.SeatRepository;
 
-import java.util.Arrays;
-
 @SpringBootApplication
-@ComponentScan(basePackages = {"controllers", "infraestructure.repositories", "use.cases"})
-@EntityScan("infraestructure.model")
-@EnableJpaRepositories(basePackages = {"infraestructure.repositories"})
-@EnableTransactionManagement
-@OpenAPIDefinition(
-        info = @Info(
-                title = "Check in Domain",
-                version = "1.0.0"
-        )
+@ComponentScan(
+  basePackages = { "controllers", "infraestructure.repositories", "use.cases" }
 )
+@EntityScan("infraestructure.model")
+@EnableJpaRepositories(basePackages = { "infraestructure.repositories" })
+@EnableTransactionManagement
+@OpenAPIDefinition(info = @Info(title = "Check in Domain", version = "1.0.0"))
 public class CheckInApiApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(CheckInApiApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(CheckInApiApplication.class, args);
+  }
 
-    @Bean(name = "checkInRepository")
-    public CheckInRepository checkInRepository() {
-        return new CheckInJpaRepository();
-    }
+  @Bean(name = "checkInRepository")
+  public CheckInRepository checkInRepository() {
+    return new CheckInJpaRepository();
+  }
 
-    @Bean(name = "passangerRepository")
-    public PassangerRepository passangerRepository() { return new PassangerJpaRepository();
-    }
+  @Bean(name = "passangerRepository")
+  public PassangerRepository passangerRepository() {
+    return new PassangerJpaRepository();
+  }
 
-    @Bean(name = "seatRepository")
-    public SeatRepository seatRepository() { return new SeatJpaRepository(); }
+  @Bean(name = "seatRepository")
+  public SeatRepository seatRepository() {
+    return new SeatJpaRepository();
+  }
 
-    @Bean(name = "baggageRepository")
-    public BaggageRepository baggageRepository() { return new BaggageJpaRepository(); }
+  @Bean(name = "baggageRepository")
+  public BaggageRepository baggageRepository() {
+    return new BaggageJpaRepository();
+  }
 
-    @Bean
-    Pipeline pipeline(ObjectProvider<Command.Handler> commandHandlers, ObjectProvider<Notification.Handler> notificationHandlers, ObjectProvider<Command.Middleware> middlewares) {
-        return new Pipelinr()
-                .with(commandHandlers::stream)
-                .with(notificationHandlers::stream)
-                .with(middlewares::orderedStream);
-    }
+  @Bean
+  Pipeline pipeline(
+    ObjectProvider<Command.Handler> commandHandlers,
+    ObjectProvider<Notification.Handler> notificationHandlers,
+    ObjectProvider<Command.Middleware> middlewares
+  ) {
+    return new Pipelinr()
+      .with(commandHandlers::stream)
+      .with(notificationHandlers::stream)
+      .with(middlewares::orderedStream);
+  }
 
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-        return args -> {
+  @Bean
+  public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+    return args -> {
+      System.out.println("Let's inspect the beans provided by Spring Boot:");
 
-            System.out.println("Let's inspect the beans provided by Spring Boot:");
-
-            String[] beanNames = ctx.getBeanDefinitionNames();
-            Arrays.sort(beanNames);
-            for (String beanName : beanNames) {
-                System.out.println(beanName);
-            }
-
-        };
-    }
+      String[] beanNames = ctx.getBeanDefinitionNames();
+      Arrays.sort(beanNames);
+      for (String beanName : beanNames) {
+        System.out.println(beanName);
+      }
+    };
+  }
 }

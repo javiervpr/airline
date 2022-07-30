@@ -1,79 +1,81 @@
 package infraestructure.model;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.*;
 
 @Entity
-@Table(name="check_in")
+@Table(name = "check_in")
 public class CheckInJpaModel {
 
-    @Id
-    @Column(nullable = false)
-    private UUID id;
-    @Column(nullable = false)
-    private UUID flightId;
-    @Column(nullable = false)
-    private Date date;
+  @Id
+  @Column(nullable = false)
+  private UUID id;
 
-    @OneToOne(optional = true)
-    private SeatJpaModel seat;
-    @OneToOne
-    private PassangerJpaModel passanger;
+  @Column(nullable = false)
+  private UUID flightId;
 
-    @OneToMany(mappedBy = "checkIn", cascade = CascadeType.REMOVE)
-    private List<BaggageJpaModel> baggages = new ArrayList<>();
+  @Column(nullable = false)
+  private Date date;
 
-    public CheckInJpaModel() {
-    }
+  @OneToOne(optional = true)
+  private SeatJpaModel seat;
 
-    public UUID getId() {
-        return id;
-    }
+  @OneToOne
+  private PassangerJpaModel passanger;
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+  @OneToMany(mappedBy = "checkIn", cascade = CascadeType.REMOVE)
+  private List<BaggageJpaModel> baggages = new ArrayList<>();
 
-    public Date getDate() {
-        return date;
-    }
+  public CheckInJpaModel() {}
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+  public UUID getId() {
+    return id;
+  }
 
-    public UUID getFlightId() {
-        return flightId;
-    }
+  public void setId(UUID id) {
+    this.id = id;
+  }
 
-    public void setFlightId(UUID flightId) {
-        this.flightId = flightId;
-    }
+  public Date getDate() {
+    return date;
+  }
 
-    public SeatJpaModel getSeat() {
-        return seat;
-    }
+  public void setDate(Date date) {
+    this.date = date;
+  }
 
-    public void setSeat(SeatJpaModel seat) {
-        this.seat = seat;
-    }
+  public UUID getFlightId() {
+    return flightId;
+  }
 
-    public PassangerJpaModel getPassanger() {
-        return passanger;
-    }
+  public void setFlightId(UUID flightId) {
+    this.flightId = flightId;
+  }
 
-    public void setPassanger(PassangerJpaModel passanger) {
-        this.passanger = passanger;
-    }
+  public SeatJpaModel getSeat() {
+    return seat;
+  }
 
-    public List<BaggageJpaModel> getBaggages() {
-        return baggages;
-    }
+  public void setSeat(SeatJpaModel seat) {
+    this.seat = seat;
+  }
 
-    public void setBaggages(List<BaggageJpaModel> baggages) {
-        this.baggages = baggages;
-    }
+  public PassangerJpaModel getPassanger() {
+    return passanger;
+  }
+
+  public void setPassanger(PassangerJpaModel passanger) {
+    this.passanger = passanger;
+  }
+
+  public List<BaggageJpaModel> getBaggages() {
+    return baggages;
+  }
+
+  public void setBaggages(List<BaggageJpaModel> baggages) {
+    this.baggages = baggages;
+  }
 }

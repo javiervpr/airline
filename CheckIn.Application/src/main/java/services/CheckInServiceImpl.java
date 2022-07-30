@@ -1,16 +1,10 @@
 package services;
 
-public class CheckInServiceImpl implements CheckInService{
+public class CheckInServiceImpl implements CheckInService {
 
+  @Override
+  public void assignSeat(int seatId) {}
 
-
-    @Override
-    public void assignSeat(int seatId) {
-
-    }
-
-    @Override
-    public void tagBaggage(float weight) {
-
-    }
+  @Override
+  public void tagBaggage(float weight) {}
 }

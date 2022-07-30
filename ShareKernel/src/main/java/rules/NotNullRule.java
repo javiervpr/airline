@@ -2,15 +2,21 @@ package rules;
 
 import core.BusinessRule;
 
-public record NotNullRule(Object object) implements BusinessRule {
+public class NotNullRule implements BusinessRule {
 
-    @Override
-    public boolean isValid() {
-        return this.object != null;
-    }
+  private final Object object;
 
-    @Override
-    public String getMessage() {
-        return "Object can not be null";
-    }
+  public NotNullRule(Object object) {
+    this.object = object;
+  }
+
+  @Override
+  public boolean isValid() {
+    return this.object != null;
+  }
+
+  @Override
+  public String getMessage() {
+    return "Object can not be null";
+  }
 }
