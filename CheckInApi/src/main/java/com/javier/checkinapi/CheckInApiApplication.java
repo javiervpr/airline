@@ -4,6 +4,7 @@ import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Notification;
 import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Pipelinr;
+import annotations.Generated;
 import infraestructure.repositories.baggage.BaggageJpaRepository;
 import infraestructure.repositories.check.in.CheckInJpaRepository;
 import infraestructure.repositories.passanger.PassangerJpaRepository;
@@ -34,6 +35,7 @@ import repositories.SeatRepository;
 @EnableJpaRepositories(basePackages = { "infraestructure.repositories" })
 @EnableTransactionManagement
 @OpenAPIDefinition(info = @Info(title = "Check in Domain", version = "1.0.0"))
+@Generated
 public class CheckInApiApplication {
 
   public static void main(String[] args) {
@@ -75,13 +77,9 @@ public class CheckInApiApplication {
   @Bean
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
-      System.out.println("Let's inspect the beans provided by Spring Boot:");
-
       String[] beanNames = ctx.getBeanDefinitionNames();
       Arrays.sort(beanNames);
-      for (String beanName : beanNames) {
-        System.out.println(beanName);
-      }
+      for (String beanName : beanNames) {}
     };
   }
 }

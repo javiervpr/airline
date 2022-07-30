@@ -1,13 +1,11 @@
-package use.cases.command.checkin.assign.seat;
+package use.cases.command.checkin.tag.baggage;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
 
-import builder.AssignSeatCommandBuilder;
-import builder.CheckInBuilder;
-import builder.PassangerBuilder;
-import builder.SeatBuilder;
+import builder.*;
 import java.util.List;
 import java.util.UUID;
 import model.*;
@@ -15,22 +13,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import repositories.BaggageRepository;
 import repositories.CheckInRepository;
-import repositories.PassangerRepository;
-import repositories.SeatRepository;
+import utils.BaggageMapper;
 import utils.PassangerMapper;
-import utils.SeatMapper;
 
-class AssignSeatHandlerTests {
+class TagBaggageHandlerTests {
 
   @Mock
   CheckInRepository checkInRepository;
 
   @Mock
-  PassangerRepository passangerRepository;
-
-  @Mock
-  SeatRepository seatRepository;
+  BaggageRepository baggageRepository;
 
   private static final UUID FLIGHT_ID = UUID.randomUUID();
   private static final UUID SEAT_ECONOMY_FREE_CODE = UUID.randomUUID();
@@ -41,7 +35,7 @@ class AssignSeatHandlerTests {
   }
 
   @Test
-  void testAssignSeatHandler() {
+  void testTagBaggageHandlerTest() {
     assertDoesNotThrow(() -> {
       Passanger passanger = new PassangerBuilder().build();
       Seat seatEconomyFree = new SeatBuilder()
@@ -57,23 +51,27 @@ class AssignSeatHandlerTests {
         .withAvaibleSeats(List.of(seatEconomyFree))
         .build();
 
-      AssignSeatCommand request = new AssignSeatCommandBuilder()
+      Baggage baggage = new BaggageBuilder()
+        .withCheckInId(checkIn.id)
+        .withWeight(20)
+        .build();
+
+      TagBaggaggeCommand request = new TagBaggageCommandBuilder()
         .withFlightId(FLIGHT_ID.toString())
-        .withSeat(SeatMapper.from(seatEconomyFree))
+        .withBaggages(List.of(BaggageMapper.from(baggage)))
         .withPassanger(PassangerMapper.from(passanger))
         .build();
 
-      AssignSeatHandler assignSeatHandler = new AssignSeatHandler(
+      TagBaggageHandler handler = new TagBaggageHandler(
         checkInRepository,
-        passangerRepository,
-        seatRepository
+        baggageRepository
       );
       when(
         checkInRepository.findByPassangerAndFlightId(anyObject(), anyObject())
       )
         .thenReturn(checkIn);
 
-      UUID checkInId = assignSeatHandler.handle(request);
+      UUID checkInId = handler.handle(request);
       assertNotNull(checkInId);
     });
   }

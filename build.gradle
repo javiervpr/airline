@@ -1,11 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
-//buildscript {
-//    dependencies {
-//        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
-//    }
-//}
 
 plugins {
     id 'java'
@@ -44,7 +39,7 @@ subprojects {
             xml.enabled true
         }
     }
-//    apply from: file("$rootProject.projectDir/gradle/heroku/stage.gradle")
+
 }
 project(':ShareKernel') {
     dependencies {}
@@ -66,6 +61,7 @@ project(':CheckIn.Application') {
 project('CheckIn.Infraestructure') {
     dependencies {
         implementation project(':ShareKernel'), project(':CheckInDomain'), project(':CheckIn.Application')
+        testImplementation project(':CheckInDomain').sourceSets.test.output, project(':CheckIn.Application').sourceSets.test.output
     }
 }
 
@@ -75,6 +71,8 @@ project('CheckInApi') {
                 project(':CheckInDomain'),
                 project(':CheckIn.Infraestructure'),
                 project(':CheckIn.Application')
+        testImplementation project(':CheckInDomain').sourceSets.test.output,
+                project(':CheckIn.Application').sourceSets.test.output
     }
 }
 
@@ -87,6 +85,3 @@ sonarqube {
 }
 
 
-//task stage(dependsOn: ['CheckInApi:copyToLib','build', 'clean'])
-//task stage(dependsOn: ['clean', 'shadowJar'])
-//build.mustRunAfter clean

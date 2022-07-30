@@ -1,16 +1,19 @@
-package use.cases.command.checkin.assign.seat;
+package use.cases.command.checkin.create.checkin;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
 
-import builder.AssignSeatCommandBuilder;
-import builder.CheckInBuilder;
+import builder.CreateCheckInCommandBuilder;
 import builder.PassangerBuilder;
 import builder.SeatBuilder;
 import java.util.List;
 import java.util.UUID;
-import model.*;
+import model.Passanger;
+import model.Seat;
+import model.SeatStatus;
+import model.SeatType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -21,16 +24,16 @@ import repositories.SeatRepository;
 import utils.PassangerMapper;
 import utils.SeatMapper;
 
-class AssignSeatHandlerTests {
+class CreateCheckInHandlerTests {
 
   @Mock
-  CheckInRepository checkInRepository;
+  private CheckInRepository checkInRepository;
 
   @Mock
-  PassangerRepository passangerRepository;
+  private SeatRepository seatRepository;
 
   @Mock
-  SeatRepository seatRepository;
+  private PassangerRepository passangerRepository;
 
   private static final UUID FLIGHT_ID = UUID.randomUUID();
   private static final UUID SEAT_ECONOMY_FREE_CODE = UUID.randomUUID();
@@ -41,7 +44,7 @@ class AssignSeatHandlerTests {
   }
 
   @Test
-  void testAssignSeatHandler() {
+  void testCreateCheckIn() {
     assertDoesNotThrow(() -> {
       Passanger passanger = new PassangerBuilder().build();
       Seat seatEconomyFree = new SeatBuilder()
@@ -51,29 +54,27 @@ class AssignSeatHandlerTests {
         .withStatus(SeatStatus.FREE)
         .build();
 
-      CheckIn checkIn = new CheckInBuilder()
-        .withFlightId(FLIGHT_ID)
-        .withPassanger(passanger)
-        .withAvaibleSeats(List.of(seatEconomyFree))
-        .build();
-
-      AssignSeatCommand request = new AssignSeatCommandBuilder()
+      CreateCheckInCommand request = new CreateCheckInCommandBuilder()
         .withFlightId(FLIGHT_ID.toString())
-        .withSeat(SeatMapper.from(seatEconomyFree))
         .withPassanger(PassangerMapper.from(passanger))
+        .withAvaibleSeats(List.of(SeatMapper.from(seatEconomyFree)))
         .build();
 
-      AssignSeatHandler assignSeatHandler = new AssignSeatHandler(
-        checkInRepository,
-        passangerRepository,
-        seatRepository
-      );
       when(
         checkInRepository.findByPassangerAndFlightId(anyObject(), anyObject())
       )
-        .thenReturn(checkIn);
+        .thenReturn(null);
 
-      UUID checkInId = assignSeatHandler.handle(request);
+      when(passangerRepository.get(anyObject())).thenReturn(passanger);
+      when(seatRepository.findByFlightIdAndStatus(anyObject(), anyObject()))
+        .thenReturn(List.of(seatEconomyFree));
+
+      CreateCheckInHandler handler = new CreateCheckInHandler(
+        checkInRepository,
+        seatRepository,
+        passangerRepository
+      );
+      UUID checkInId = handler.handle(request);
       assertNotNull(checkInId);
     });
   }
