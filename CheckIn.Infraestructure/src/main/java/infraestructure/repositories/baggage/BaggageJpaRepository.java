@@ -49,7 +49,7 @@ public class BaggageJpaRepository implements BaggageRepository {
     );
     List<Baggage> baggages = new ArrayList<>();
     if (
-      jpaModels == null || jpaModels.size() == 0
+      jpaModels == null || jpaModels.isEmpty()
     ) return Collections.emptyList();
     for (BaggageJpaModel jpaModel : jpaModels) {
       baggages.add(BaggageUtils.jpaToBaggage(jpaModel));
