@@ -54,7 +54,7 @@ public class CreateCheckInHandler
         this.passangerRepository.get(
             UUID.fromString(request.checkInDto.passanger.id)
           );
-      //TODO: Validate passanger
+
       List<Seat> avaibleSeats = seatRepository.findByFlightIdAndStatus(
         UUID.fromString(request.checkInDto.flightId),
         SeatStatus.FREE.toString()
@@ -79,7 +79,6 @@ public class CreateCheckInHandler
       }
       return checkIn.id;
     } catch (BusinessRuleValidationException e) {
-      e.printStackTrace();
       return null;
     }
   }
