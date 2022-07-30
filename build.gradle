@@ -88,5 +88,5 @@ sonarqube {
 
 
 //task stage(dependsOn: ['CheckInApi:copyToLib','build', 'clean'])
-//task stage(dependsOn: ['clean', 'shadowJar'])
+task stage(dependsOn: ['clean', 'shadowJar'])
 //build.mustRunAfter clean
