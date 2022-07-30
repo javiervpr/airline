@@ -75,5 +75,5 @@ sonarqube {
     }
 }
 
-task stage(dependsOn: ['build', 'clean'])
+task stage(dependsOn: ['CheckInApi:build', 'CheckInApi:clean'])
 build.mustRunAfter clean
