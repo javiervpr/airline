@@ -5,6 +5,7 @@ import core.BusinessRuleValidationException;
 import event.BaggageTagged;
 import event.CheckInCompleted;
 import event.SeatAssigned;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class CheckIn extends AggregateRoot {
     this.avaibleSeats = avaibleSeats;
     this.passanger = passanger;
     this.date = new Date();
+    this.baggages = new ArrayList<>();
   }
 
   public CheckIn(
