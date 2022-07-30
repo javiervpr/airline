@@ -9,6 +9,7 @@ group 'com.javier'
 version '1.0-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
@@ -73,3 +74,6 @@ sonarqube {
         property "sonar.host.url", "https://sonarcloud.io"
     }
 }
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
