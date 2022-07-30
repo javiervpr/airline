@@ -13,6 +13,7 @@ public class AssignSeatHandler
   implements Command.Handler<AssignSeatCommand, UUID> {
 
   private final CheckInRepository checkInRepository;
+  private String test;
 
   public AssignSeatHandler(
     CheckInRepository checkInRepository,
