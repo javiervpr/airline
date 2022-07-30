@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
     id 'java'
-    id 'org.sonarqube' version '3.3'
+    id "org.sonarqube" version "3.4.0.2513"
 }
 group 'com.javier'
 version '1.0-SNAPSHOT'
@@ -12,8 +12,7 @@ targetCompatibility = JavaVersion.VERSION_17
 subprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
-//    apply plugin: 'org.sonarqube'
-//    id "org.sonarqube" version "3.3”
+
 
     repositories {
         mavenCentral()
@@ -33,6 +32,7 @@ subprojects {
             xml.enabled true
         }
     }
+
 }
 project(':ShareKernel') {
     dependencies {}
@@ -66,3 +66,10 @@ project('CheckInApi') {
     }
 }
 
+sonarqube {
+    properties {
+        property "sonar.projectKey", "javiervpr_airline"
+        property "sonar.organization", "javiervpr"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
