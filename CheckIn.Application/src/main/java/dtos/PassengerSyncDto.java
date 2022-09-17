@@ -5,5 +5,7 @@ public class PassengerSyncDto {
     public String name;
     public String lastname;
     public String passport;
-    public boolean needAssistance;
+    public boolean needsAssistance;
+    public String _id;
+    public String __v;
 }

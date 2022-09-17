@@ -6,8 +6,6 @@ import dtos.PassengerSyncDto;
 import model.Passanger;
 import org.springframework.stereotype.Component;
 import repositories.PassangerRepository;
-import use.cases.command.flight.FlightSeatSyncCommand;
-import utils.PassangerMapper;
 
 import java.util.Date;
 import java.util.UUID;
@@ -26,7 +24,7 @@ public class PassengerSyncHandler implements Command.Handler<PassengerSyncComman
         PassengerSyncDto dto = command.passengerSyncDto;
         UUID passengerId = UUID.fromString(dto.id);
         try {
-            Passanger passanger = new Passanger(passengerId,dto.name, dto.lastname, new Date(), dto.passport,dto.needAssistance);
+            Passanger passanger = new Passanger(passengerId,dto.name, dto.lastname, new Date(), dto.passport,dto.needsAssistance);
             passangerRepository.update(passanger);
         } catch (BusinessRuleValidationException e) {
             e.printStackTrace();
