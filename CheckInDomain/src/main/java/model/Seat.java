@@ -3,7 +3,6 @@ package model;
 import core.BusinessRuleValidationException;
 import core.Entity;
 import java.util.UUID;
-import value.objects.SeatCodeValue;
 
 public class Seat extends Entity {
 
@@ -18,6 +17,10 @@ public class Seat extends Entity {
     this.type = type;
     this.status = status;
     this.flightId = flightId;
+  }
+
+  public void updateStatus(SeatStatus status) {
+    this.status = status;
   }
 
   public UUID getCode() {

@@ -60,19 +60,14 @@ public class CheckInJpaRepository implements CheckInRepository {
   @Override
   public CheckIn findByPassangerAndFlightId(UUID passenger, UUID flightId)
     throws BusinessRuleValidationException {
-    PassangerJpaModel passangerJpaModel = passangerCrudRepository
-      .findById(passenger)
-      .orElse(null);
+    PassangerJpaModel passangerJpaModel = passangerCrudRepository.findById(passenger).orElse(null);
     if (passangerJpaModel == null) return null;
     CheckInJpaModel model = checkInCrudRepository.findByPassangerAndFlightId(
       passangerJpaModel,
       flightId
     );
     if (model != null) {
-      List<SeatJpaModel> seatsAvailable = seatCrudRepository.findByFlightIdAndStatus(
-        flightId,
-        SeatStatus.FREE.toString()
-      );
+      List<SeatJpaModel> seatsAvailable = seatCrudRepository.findByFlightIdAndStatus(flightId, SeatStatus.FREE.toString());
       return CheckInUtils.jpaModelToCheckIn(model, seatsAvailable);
     }
     return null;

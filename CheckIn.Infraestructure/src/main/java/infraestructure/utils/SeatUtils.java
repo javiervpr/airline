@@ -1,5 +1,6 @@
 package infraestructure.utils;
 
+import annotations.Generated;
 import core.BusinessRuleValidationException;
 import infraestructure.model.SeatJpaModel;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import model.Seat;
 import model.SeatStatus;
 import model.SeatType;
 
+@Generated
 public class SeatUtils {
 
   public static SeatJpaModel seatToJpaEntity(Seat seat) {

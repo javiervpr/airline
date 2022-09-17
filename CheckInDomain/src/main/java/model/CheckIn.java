@@ -67,6 +67,7 @@ public class CheckIn extends AggregateRoot {
         "There is not assistance seat available"
       );
     }
+    targetSeat.updateStatus(SeatStatus.BOOKED);
     this.seat = targetSeat;
     addDomainEvent(new SeatAssigned(this));
     completeCheckIn();

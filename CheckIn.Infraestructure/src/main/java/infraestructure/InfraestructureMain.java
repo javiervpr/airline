@@ -1,6 +1,8 @@
 package infraestructure;
 
 import java.util.Arrays;
+
+import annotations.Generated;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan({ "infraestructure.model", "infraestructure.repositories" })
 @EntityScan("infraestructure.model")
 @EnableJpaRepositories(basePackages = { "infraestructure.repositories" })
+@Generated
 public class InfraestructureMain {
 
   public static void main(String[] args) {
