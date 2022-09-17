@@ -21,8 +21,8 @@ public class FlightSeatSyncHandler implements Command.Handler<FlightSeatSyncComm
 
     @Override
     public UUID handle(FlightSeatSyncCommand command) {
-        UUID flightId = UUID.fromString(command.flightDto.flight.uuid);
-        command.flightDto.flight.information.avaibleSeats.stream().forEach(seatDto -> {
+        UUID flightId = UUID.fromString(command.flightDto.data.flight.uuid);
+        command.flightDto.data.flight.information.avaibleSeats.stream().forEach(seatDto -> {
             try {
                 Seat seat = new Seat(UUID.fromString(seatDto.code),
                         SeatType.valueOf(seatDto.type),

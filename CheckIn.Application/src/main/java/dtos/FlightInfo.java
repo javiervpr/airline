@@ -13,6 +13,7 @@ public class FlightInfo {
     public String status;
     public float flight_program_id;
     public Information information;
-
+    public int notified;
+    public int flightCanceledNotified;
 
 }

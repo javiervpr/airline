@@ -78,7 +78,7 @@ public class CheckInController {
     return message;
   }
 
-  @SqsListener("flights")
+  @SqsListener("flights_checkin_test")
   public void listenFlightQueue(String message) throws JsonProcessingException {
     logger.info("message from SQS Queue {}",message);
     ObjectMapper objectMapper = new ObjectMapper();
@@ -86,7 +86,7 @@ public class CheckInController {
     FlightSeatSyncCommand command = new FlightSeatSyncCommand(flightDto);
     command.execute(pipeline);
     logger.info("message from SQS Queue decoded {}",flightDto.toString());
-    logger.info("message from SQS Queue decoded {}",flightDto.flight.information.avaibleSeats.toString());
+    logger.info("message from SQS Queue decoded {}",flightDto.data.flight.information.avaibleSeats.toString());
   }
 
   @SqsListener("passengers_queue")
