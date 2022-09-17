@@ -1,9 +1,11 @@
 package infraestructure.utils;
 
+import annotations.Generated;
 import core.BusinessRuleValidationException;
 import infraestructure.model.PassangerJpaModel;
 import model.Passanger;
 
+@Generated
 public class PassangerUtils {
 
   public static PassangerJpaModel passangerToJpaEntity(Passanger passanger) {

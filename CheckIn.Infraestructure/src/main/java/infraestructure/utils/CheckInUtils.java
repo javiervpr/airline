@@ -1,5 +1,6 @@
 package infraestructure.utils;
 
+import annotations.Generated;
 import core.BusinessRuleValidationException;
 import infraestructure.model.CheckInJpaModel;
 import infraestructure.model.SeatJpaModel;
@@ -9,6 +10,7 @@ import java.util.List;
 import model.CheckIn;
 import model.Seat;
 
+@Generated
 public class CheckInUtils {
 
   public static CheckIn jpaModelToCheckIn(

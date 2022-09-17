@@ -1,5 +1,6 @@
 package infraestructure.utils;
 
+import annotations.Generated;
 import core.BusinessRuleValidationException;
 import infraestructure.model.BaggageJpaModel;
 import infraestructure.model.CheckInJpaModel;
@@ -7,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import model.Baggage;
 
+@Generated
 public class BaggageUtils {
 
   public static BaggageJpaModel baggageToJpaEntity(

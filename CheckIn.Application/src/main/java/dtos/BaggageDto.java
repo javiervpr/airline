@@ -12,4 +12,13 @@ public class BaggageDto {
     this.weight = weight;
     this.type = type;
   }
+
+  @Override
+  public String toString() {
+    return "{" +
+            "weight:" + weight +
+            ", type:'" + type + '\'' +
+            ", checkInId:'" + checkInId + '\'' +
+            '}';
+  }
 }

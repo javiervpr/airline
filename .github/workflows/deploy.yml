@@ -15,4 +15,3 @@ jobs:
         with:
           app-name: "airline-checkin-test"
           api-key: "${{secrets.HEROKU_API_KEY}}"
-          
