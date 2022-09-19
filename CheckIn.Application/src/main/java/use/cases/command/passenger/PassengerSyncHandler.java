@@ -24,7 +24,7 @@ public class PassengerSyncHandler implements Command.Handler<PassengerSyncComman
         PassengerSyncDto dto = command.passengerSyncDto;
         UUID passengerId = UUID.fromString(dto.id);
         try {
-            Passanger passanger = new Passanger(passengerId,dto.name, dto.lastname, new Date(), dto.passport,dto.needsAssistance);
+            Passanger passanger = new Passanger(passengerId,dto.name, dto.lastName, new Date(), dto.passport,dto.needsAssistance);
             passangerRepository.update(passanger);
         } catch (BusinessRuleValidationException e) {
             e.printStackTrace();
