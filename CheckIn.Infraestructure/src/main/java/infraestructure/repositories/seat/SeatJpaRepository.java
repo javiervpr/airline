@@ -54,4 +54,8 @@ public class SeatJpaRepository implements SeatRepository {
     }
     return seats;
   }
+
+  public void setSeatCrudRepository(SeatCrudRepository seatCrudRepository) {
+    this.seatCrudRepository = seatCrudRepository;
+  }
 }
