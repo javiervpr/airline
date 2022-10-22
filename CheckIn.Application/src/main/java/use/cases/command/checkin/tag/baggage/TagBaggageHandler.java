@@ -40,6 +40,7 @@ public class TagBaggageHandler
       }
       return checkIn.getId();
     } catch (BusinessRuleValidationException e) {
+      e.printStackTrace();
       return null;
     }
   }

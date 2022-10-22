@@ -11,7 +11,6 @@ import builder.BaggageDtoBuilder;
 import builder.CheckInDtoBuilder;
 import builder.PassangerDtoBuilder;
 import builder.SeatDtoBuilder;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import dtos.BaggageDto;
 import dtos.CheckInDto;
 import dtos.PassangerDto;
@@ -19,15 +18,14 @@ import dtos.SeatDto;
 import java.util.List;
 import java.util.UUID;
 import model.BaggageType;
-import model.CheckIn;
 import model.SeatStatus;
 import model.SeatType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.cloud.aws.messaging.core.QueueMessagingTemplate;
 import use.cases.command.checkin.assign.seat.AssignSeatCommand;
+import utils.CheckInMapper;
 
 class CheckInControllerTests {
 
@@ -35,10 +33,9 @@ class CheckInControllerTests {
   Pipeline pipeline;
 
   @Mock
-  QueueMessagingTemplate queueMessagingTemplate;
-
-  @Mock
   AssignSeatCommand assignSeatCommand;
+
+
 
   private static final UUID FLIGHT_ID = UUID.randomUUID();
   private static final UUID SEAT_ECONOMY_FREE_CODE = UUID.randomUUID();
@@ -87,7 +84,7 @@ class CheckInControllerTests {
 
     when(pipeline.send((Command<Object>) anyObject()))
       .thenReturn(UUID.randomUUID());
-    CheckInController checkInController = new CheckInController(pipeline, queueMessagingTemplate);
+    CheckInController checkInController = new CheckInController(pipeline);
     UUID checkInId = checkInController.tagBaggage(checkInDto);
     assertNotNull(checkInId);
     assertNotEquals(UUID.fromString(checkInDto.checkInId), checkInId);
@@ -109,10 +106,9 @@ class CheckInControllerTests {
       .build();
 
     when(pipeline.send((Command<Object>) anyObject()))
-      .thenReturn(UUID.randomUUID());
-    CheckInController checkInController = new CheckInController(pipeline, queueMessagingTemplate);
-    UUID checkInId = checkInController.createCheckIn(checkInDto);
+      .thenReturn(checkInDto);
+    CheckInController checkInController = new CheckInController(pipeline);
+    CheckInDto checkInId = checkInController.createCheckIn(checkInDto);
     assertNotNull(checkInId);
-    assertNotEquals(UUID.fromString(checkInDto.checkInId), checkInId);
   }
 }

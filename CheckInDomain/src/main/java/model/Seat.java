@@ -10,6 +10,7 @@ public class Seat extends Entity {
   private SeatType type;
   private SeatStatus status;
   private UUID flightId;
+  private String rowColumn;
 
   public Seat(UUID code, SeatType type, SeatStatus status, UUID flightId)
     throws BusinessRuleValidationException {
@@ -17,6 +18,14 @@ public class Seat extends Entity {
     this.type = type;
     this.status = status;
     this.flightId = flightId;
+  }
+
+  public Seat(UUID code, SeatType type, SeatStatus status, UUID flightId, String rowColumn) throws BusinessRuleValidationException {
+    this.code = code;
+    this.type = type;
+    this.status = status;
+    this.flightId = flightId;
+    this.rowColumn = rowColumn;
   }
 
   public void updateStatus(SeatStatus status) {
@@ -37,5 +46,13 @@ public class Seat extends Entity {
 
   public UUID getFlightId() {
     return flightId;
+  }
+
+  public String getRowColumn() {
+    return rowColumn;
+  }
+
+  public void setRowColumn(String rowColumn) {
+    this.rowColumn = rowColumn;
   }
 }

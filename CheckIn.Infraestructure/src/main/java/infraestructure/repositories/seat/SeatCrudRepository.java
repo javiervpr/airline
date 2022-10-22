@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SeatCrudRepository extends CrudRepository<SeatJpaModel, UUID> {
   List<SeatJpaModel> findByFlightIdAndStatus(UUID flight, String status);
+
+  List<SeatJpaModel> findByFlightId(UUID flight);
 }

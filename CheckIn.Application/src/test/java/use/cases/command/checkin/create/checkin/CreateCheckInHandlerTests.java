@@ -10,6 +10,8 @@ import builder.PassangerBuilder;
 import builder.SeatBuilder;
 import java.util.List;
 import java.util.UUID;
+
+import dtos.CheckInDto;
 import model.Passanger;
 import model.Seat;
 import model.SeatStatus;
@@ -74,7 +76,7 @@ class CreateCheckInHandlerTests {
         seatRepository,
         passangerRepository
       );
-      UUID checkInId = handler.handle(request);
+      CheckInDto checkInId = handler.handle(request);
       assertNotNull(checkInId);
     });
   }

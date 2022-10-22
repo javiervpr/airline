@@ -2,6 +2,7 @@ package use.cases.command.passenger;
 
 import an.awesome.pipelinr.Command;
 import core.BusinessRuleValidationException;
+import dtos.PassengerObjectSync;
 import dtos.PassengerSyncDto;
 import model.Passanger;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class PassengerSyncHandler implements Command.Handler<PassengerSyncComman
 
     @Override
     public UUID handle(PassengerSyncCommand command) {
-        PassengerSyncDto dto = command.passengerSyncDto;
+        PassengerObjectSync dto = command.passengerSyncDto.body.passanger;
         UUID passengerId = UUID.fromString(dto.id);
         try {
             Passanger passanger = new Passanger(passengerId,dto.name, dto.lastName, new Date(), dto.passport,dto.needsAssistance);

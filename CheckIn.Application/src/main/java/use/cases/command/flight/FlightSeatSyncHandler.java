@@ -27,7 +27,8 @@ public class FlightSeatSyncHandler implements Command.Handler<FlightSeatSyncComm
                 Seat seat = new Seat(UUID.fromString(seatDto.code),
                         SeatType.valueOf(seatDto.type),
                         SeatStatus.valueOf(seatDto.status),
-                        flightId);
+                        flightId,
+                        seatDto.rowColumn);
                 this.seatRepository.update(seat);
             } catch (BusinessRuleValidationException e) {
                 e.printStackTrace();

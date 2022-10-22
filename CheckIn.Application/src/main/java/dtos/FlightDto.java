@@ -7,13 +7,15 @@ public class FlightDto {
     public FlightData data;
 }
 
-class FlightProgram {
+class FlightProgramDto {
     public int id;
-    public String source_airport_code;
-    public String destiny_airport_code;
-    public String uuid;
-    public String updated_at;
     public String created_at;
+    public String updated_at;
+    public String uuid;
+    public String sourceAirport;
+    public String destinyAirport;
+    public String flightCode;
+    public int itinerary_id;
 }
 
 class Aircraft {

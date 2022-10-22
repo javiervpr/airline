@@ -1,19 +1,21 @@
 package dtos;
 
 public class FlightInfo {
-    public float id;
+    public int id;
     public String created_at;
     public String updated_at;
-    public String uuid;
-    public String unique_code;
+    public String scheduledStartTime;
+    public String scheduledEndTime;
+    public String flightNumber;
     public String startTime;
     public String endTime;
-    public Crew crew;
-    public Aircraft aircraft;
+    public String uuid;
+    public String crewUuid;
+    public String aircraftUuid;
     public String status;
-    public float flight_program_id;
+    public int flightProgramId;
     public Information information;
-    public int notified;
-    public int flightCanceledNotified;
+    public FlightProgramDto flight_program;
+
 
 }

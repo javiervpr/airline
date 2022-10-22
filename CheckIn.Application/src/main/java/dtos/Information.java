@@ -1,8 +1,9 @@
 package dtos;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Information {
-    public ArrayList<SeatDto> avaibleSeats;
-    public ArrayList<TicketsDto> tickets;
+    public List<SeatDto> avaibleSeats;
+    public List<TicketsDto> tickets;
 }

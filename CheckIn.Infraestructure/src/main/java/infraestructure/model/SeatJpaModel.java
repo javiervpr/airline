@@ -23,6 +23,9 @@ public class SeatJpaModel {
   @Column(nullable = false)
   private UUID flightId;
 
+  @Column(nullable = true)
+  private String rowColumn;
+
   public UUID getCode() {
     return code;
   }
@@ -53,5 +56,13 @@ public class SeatJpaModel {
 
   public void setFlightId(UUID flightId) {
     this.flightId = flightId;
+  }
+
+  public String getRowColumn() {
+    return rowColumn;
+  }
+
+  public void setRowColumn(String rowColumn) {
+    this.rowColumn = rowColumn;
   }
 }

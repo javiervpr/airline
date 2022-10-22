@@ -15,6 +15,7 @@ public class CheckIn extends AggregateRoot {
   private UUID flightId;
   private Date date;
   private Seat seat;
+  private Seat oldSeat;
   private List<Baggage> baggages;
   private List<Seat> avaibleSeats;
   private Passanger passanger;
@@ -27,17 +28,14 @@ public class CheckIn extends AggregateRoot {
     this.baggages = new ArrayList<>();
   }
 
-  public CheckIn(
-    UUID id,
-    UUID flightId,
-    List<Seat> avaibleSeats,
-    Passanger passanger
-  ) {
+  public CheckIn(UUID id, UUID flightId, List<Seat> avaibleSeats, Passanger passanger, Seat seat, List<Baggage> baggages) {
     this.id = id;
     this.flightId = flightId;
     this.avaibleSeats = avaibleSeats;
     this.passanger = passanger;
     this.date = new Date();
+    this.seat = seat;
+    this.baggages = baggages;
   }
 
   public void assignSeat(UUID seatCode) throws BusinessRuleValidationException {
@@ -46,26 +44,26 @@ public class CheckIn extends AggregateRoot {
       .filter(s -> s.getCode().equals(seatCode))
       .findFirst()
       .orElse(null);
-    if (targetSeat == null) throw new BusinessRuleValidationException(
-      "This seatCode is not valid" + seatCode
-    );
+    if (targetSeat == null) throw new BusinessRuleValidationException("This seatCode is not valid" + seatCode);
     if (targetSeat.getStatus().equals(SeatStatus.BOOKED)) {
-      throw new BusinessRuleValidationException(
-        "This seatCode is already booked" + seatCode
-      );
+      throw new BusinessRuleValidationException("This seatCode is already booked" + seatCode);
     }
-    if (passanger.isNeedAssistance()) {
-      targetSeat =
-        this.avaibleSeats.stream()
-          .filter(s ->
-            s.getStatus().equals(SeatStatus.FREE) &&
-            s.getType().equals(SeatType.ASSISTANCE)
-          )
-          .findFirst()
-          .orElse(null);
-      if (targetSeat == null) throw new BusinessRuleValidationException(
-        "There is not assistance seat available"
-      );
+    if(targetSeat.getType() == SeatType.ASSISTANCE && !passanger.isNeedAssistance()) {
+      throw new BusinessRuleValidationException("This is special seat for assistance");
+    }
+//    if (passanger.isNeedAssistance()) {
+//      targetSeat = this.avaibleSeats.stream()
+//          .filter(s ->
+//            s.getStatus().equals(SeatStatus.FREE) &&
+//            s.getType().equals(SeatType.ASSISTANCE)
+//          )
+//          .findFirst()
+//          .orElse(null);
+//      if (targetSeat == null) throw new BusinessRuleValidationException("There is not assistance seat available");
+//    }
+    if (this.seat != null) {
+      this.oldSeat = this.seat;
+      this.oldSeat.updateStatus(SeatStatus.FREE);
     }
     targetSeat.updateStatus(SeatStatus.BOOKED);
     this.seat = targetSeat;
@@ -107,5 +105,13 @@ public class CheckIn extends AggregateRoot {
 
   public Passanger getPassanger() {
     return passanger;
+  }
+
+  public Seat getOldSeat() {
+    return oldSeat;
+  }
+
+  public void setOldSeat(Seat oldSeat) {
+    this.oldSeat = oldSeat;
   }
 }

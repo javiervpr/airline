@@ -10,4 +10,7 @@ public interface SeatRepository {
 
   List<Seat> findByFlightIdAndStatus(UUID flightId, String status)
     throws BusinessRuleValidationException;
+
+  List<Seat> findByFlightId(UUID flightId)
+          throws BusinessRuleValidationException;
 }

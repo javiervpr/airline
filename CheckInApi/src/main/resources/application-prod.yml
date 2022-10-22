@@ -1,0 +1,36 @@
+server:
+  port: ${PORT:8082}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ec2-34-235-31-124.compute-1.amazonaws.com:5432/ddk7ttei39gjhm
+    username: fezgbnquvsedwq
+    password: 5f49c40cf7ce3f3810b7d86e26b2f725dfabcfd5fb7d9938fb90853d4b4b3cb3
+
+jpa:
+  hibernate:
+    ddl-auto: create
+
+springdoc:
+  swagger-ui:
+    path: /
+
+cloud:
+  aws:
+    region:
+      static: us-east-1
+      auto: false
+    credentials:
+      access-key: AKIASZCTJFEF3VQQ7S7X
+      secret-key: 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
+    end-point:
+      uri: https://sqs.us-east-1.amazonaws.com/191300708619/assigned_seat
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+      internal:
+        InstanceMetadataServiceResourceFetcher: error

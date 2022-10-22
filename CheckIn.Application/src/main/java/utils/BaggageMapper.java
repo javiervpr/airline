@@ -8,6 +8,8 @@ import model.Baggage;
 public final class BaggageMapper {
 
   public static BaggageDto from(Baggage baggage) {
+    if (baggage == null)
+      return new BaggageDto();
     return new BaggageDto(
       baggage.getWeight(),
       baggage.getType().toString(),
