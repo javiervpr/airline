@@ -7,9 +7,10 @@ spring:
     username: fezgbnquvsedwq
     password: 5f49c40cf7ce3f3810b7d86e26b2f725dfabcfd5fb7d9938fb90853d4b4b3cb3
 
-jpa:
-  hibernate:
-    ddl-auto: create
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
 
 springdoc:
   swagger-ui:
@@ -25,6 +26,9 @@ cloud:
       secret-key: 9Mqsi+t5vJgG20FLV5ZALbCW/J3duXx0MYSw+LmO
     end-point:
       uri: https://sqs.us-east-1.amazonaws.com/191300708619/assigned_seat
+    topics:
+      assigned-seat-arn: arn:aws:sns:us-east-1:191300708619:AsientoAsignado
+
 
 logging:
   level:

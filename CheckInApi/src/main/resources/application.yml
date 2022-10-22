@@ -26,6 +26,9 @@ cloud:
       secret-key: 9Mqsi+t5vJgG20FLV5ZALbCW/J3duXx0MYSw+LmO
     end-point:
       uri: https://sqs.us-east-1.amazonaws.com/191300708619/assigned_seat
+    topics:
+      assigned-seat-arn: arn:aws:sns:us-east-1:191300708619:AsientoAsignado
+
 
 logging:
   level:
