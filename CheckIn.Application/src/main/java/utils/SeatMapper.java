@@ -18,10 +18,4 @@ public final class SeatMapper {
       seat.getRowColumn() == null ? "" : seat.getRowColumn()
     );
   }
-  //    public static Seat from(SeatDto seatDto) throws BusinessRuleValidationException {
-  //        return new Seat(UUID.fromString(seatDto.code),
-  //                SeatType.valueOf(seatDto.type),
-  //                SeatStatus.valueOf(seatDto.status),
-  //                UUID.fromString(seatDto.));
-  //    }
 }

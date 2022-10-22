@@ -1,6 +1,7 @@
 package use.cases.command.flight;
 
 import an.awesome.pipelinr.Command;
+import annotations.Generated;
 import core.BusinessRuleValidationException;
 import java.util.UUID;
 import model.Seat;
@@ -9,6 +10,7 @@ import model.SeatType;
 import org.springframework.stereotype.Component;
 import repositories.SeatRepository;
 
+@Generated
 @Component
 public class FlightSeatSyncHandler
   implements Command.Handler<FlightSeatSyncCommand, UUID> {
