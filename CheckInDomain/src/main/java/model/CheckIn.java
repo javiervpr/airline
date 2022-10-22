@@ -28,7 +28,14 @@ public class CheckIn extends AggregateRoot {
     this.baggages = new ArrayList<>();
   }
 
-  public CheckIn(UUID id, UUID flightId, List<Seat> avaibleSeats, Passanger passanger, Seat seat, List<Baggage> baggages) {
+  public CheckIn(
+    UUID id,
+    UUID flightId,
+    List<Seat> avaibleSeats,
+    Passanger passanger,
+    Seat seat,
+    List<Baggage> baggages
+  ) {
     this.id = id;
     this.flightId = flightId;
     this.avaibleSeats = avaibleSeats;
@@ -44,23 +51,22 @@ public class CheckIn extends AggregateRoot {
       .filter(s -> s.getCode().equals(seatCode))
       .findFirst()
       .orElse(null);
-    if (targetSeat == null) throw new BusinessRuleValidationException("This seatCode is not valid" + seatCode);
+    if (targetSeat == null) throw new BusinessRuleValidationException(
+      "This seatCode is not valid" + seatCode
+    );
     if (targetSeat.getStatus().equals(SeatStatus.BOOKED)) {
-      throw new BusinessRuleValidationException("This seatCode is already booked" + seatCode);
+      throw new BusinessRuleValidationException(
+        "This seatCode is already booked" + seatCode
+      );
     }
-    if(targetSeat.getType() == SeatType.ASSISTANCE && !passanger.isNeedAssistance()) {
-      throw new BusinessRuleValidationException("This is special seat for assistance");
+    if (
+      targetSeat.getType() == SeatType.ASSISTANCE &&
+      !passanger.isNeedAssistance()
+    ) {
+      throw new BusinessRuleValidationException(
+        "This is special seat for assistance"
+      );
     }
-//    if (passanger.isNeedAssistance()) {
-//      targetSeat = this.avaibleSeats.stream()
-//          .filter(s ->
-//            s.getStatus().equals(SeatStatus.FREE) &&
-//            s.getType().equals(SeatType.ASSISTANCE)
-//          )
-//          .findFirst()
-//          .orElse(null);
-//      if (targetSeat == null) throw new BusinessRuleValidationException("There is not assistance seat available");
-//    }
     if (this.seat != null) {
       this.oldSeat = this.seat;
       this.oldSeat.updateStatus(SeatStatus.FREE);
@@ -109,9 +115,5 @@ public class CheckIn extends AggregateRoot {
 
   public Seat getOldSeat() {
     return oldSeat;
-  }
-
-  public void setOldSeat(Seat oldSeat) {
-    this.oldSeat = oldSeat;
   }
 }

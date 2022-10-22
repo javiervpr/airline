@@ -57,25 +57,32 @@ public class CreateCheckInHandler
             UUID.fromString(request.checkInDto.passanger.id)
           );
 
-      List<Seat> avaibleSeats = seatRepository.findByFlightId(UUID.fromString(request.checkInDto.flightId));
-//              seatRepository.findByFlightIdAndStatus(
-//        UUID.fromString(request.checkInDto.flightId),
-//        SeatStatus.FREE.toString()
-//      );
-      checkIn = checkInFactory.create( UUID.fromString(request.checkInDto.flightId), avaibleSeats, passanger);
+      List<Seat> avaibleSeats = seatRepository.findByFlightId(
+        UUID.fromString(request.checkInDto.flightId)
+      );
+      //              seatRepository.findByFlightIdAndStatus(
+      //        UUID.fromString(request.checkInDto.flightId),
+      //        SeatStatus.FREE.toString()
+      //      );
+      checkIn =
+        checkInFactory.create(
+          UUID.fromString(request.checkInDto.flightId),
+          avaibleSeats,
+          passanger
+        );
       checkInRepository.update(checkIn);
-//      for (SeatDto seatDto : avaibleSeats) {
-//        Seat seat = null;
-//        seat =
-//          seatFactory.create(
-//            seatDto.code,
-//            seatDto.type,
-//            seatDto.status,
-//            request.checkInDto.flightId
-//          );
-//        seatRepository.update(seat);
-//      }
-//      return checkIn.id;
+      //      for (SeatDto seatDto : avaibleSeats) {
+      //        Seat seat = null;
+      //        seat =
+      //          seatFactory.create(
+      //            seatDto.code,
+      //            seatDto.type,
+      //            seatDto.status,
+      //            request.checkInDto.flightId
+      //          );
+      //        seatRepository.update(seat);
+      //      }
+      //      return checkIn.id;
       return CheckInMapper.from(checkIn);
     } catch (BusinessRuleValidationException e) {
       return null;

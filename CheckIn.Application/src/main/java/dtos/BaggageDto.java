@@ -15,10 +15,17 @@ public class BaggageDto {
 
   @Override
   public String toString() {
-    return "{" +
-            "weight:" + weight +
-            ", type:'" + type + '\'' +
-            ", checkInId:'" + checkInId + '\'' +
-            '}';
+    return (
+      "{" +
+      "weight:" +
+      weight +
+      ", type:'" +
+      type +
+      '\'' +
+      ", checkInId:'" +
+      checkInId +
+      '\'' +
+      '}'
+    );
   }
 }

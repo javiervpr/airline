@@ -11,6 +11,7 @@ import builder.BaggageDtoBuilder;
 import builder.CheckInDtoBuilder;
 import builder.PassangerDtoBuilder;
 import builder.SeatDtoBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import dtos.BaggageDto;
 import dtos.CheckInDto;
 import dtos.PassangerDto;
@@ -32,11 +33,6 @@ class CheckInControllerTests {
   @Mock
   Pipeline pipeline;
 
-  @Mock
-  AssignSeatCommand assignSeatCommand;
-
-
-
   private static final UUID FLIGHT_ID = UUID.randomUUID();
   private static final UUID SEAT_ECONOMY_FREE_CODE = UUID.randomUUID();
 
@@ -45,28 +41,53 @@ class CheckInControllerTests {
     MockitoAnnotations.initMocks(this);
   }
 
-//  @Test
-//  void testAssignSeat() throws JsonProcessingException {
-//    SeatDto seatDto = new SeatDtoBuilder()
-//      .withCode(SEAT_ECONOMY_FREE_CODE.toString())
-//      .withType(SeatType.ECONOMY.toString())
-//      .withStatus(SeatStatus.FREE.toString())
-//      .build();
-//    PassangerDto passangerDto = new PassangerDtoBuilder().build();
-//
-//    CheckInDto checkInDto = new CheckInDtoBuilder()
-//      .withFlightId(FLIGHT_ID.toString())
-//      .withSeat(seatDto)
-//      .withPassanger(passangerDto)
-//      .build();
-//
-//    when(pipeline.send((Command<Object>) anyObject()))
-//      .thenReturn(UUID.randomUUID());
-//
-//    CheckInController checkInController = new CheckInController(pipeline, queueMessagingTemplate);
-//    String checkIn = checkInController.assignSeat(checkInDto);
-//    assertNotNull(checkIn);
-//  }
+  @Test
+  void testGetCheckIn() throws JsonProcessingException {
+    SeatDto seatDto = new SeatDtoBuilder()
+      .withCode(SEAT_ECONOMY_FREE_CODE.toString())
+      .withType(SeatType.ECONOMY.toString())
+      .withStatus(SeatStatus.FREE.toString())
+      .build();
+    PassangerDto passangerDto = new PassangerDtoBuilder().build();
+
+    CheckInDto checkInDto = new CheckInDtoBuilder()
+      .withFlightId(FLIGHT_ID.toString())
+      .withSeat(seatDto)
+      .withPassanger(passangerDto)
+      .build();
+
+    when(pipeline.send((Command<Object>) anyObject())).thenReturn(checkInDto);
+
+    CheckInController checkInController = new CheckInController(pipeline);
+    CheckInDto checkIn = checkInController.getCheckIn(
+      FLIGHT_ID.toString(),
+      passangerDto.id
+    );
+    assertNotNull(checkIn);
+  }
+
+  @Test
+  void testAssignSeat() throws JsonProcessingException {
+    SeatDto seatDto = new SeatDtoBuilder()
+      .withCode(SEAT_ECONOMY_FREE_CODE.toString())
+      .withType(SeatType.ECONOMY.toString())
+      .withStatus(SeatStatus.FREE.toString())
+      .build();
+    PassangerDto passangerDto = new PassangerDtoBuilder().build();
+
+    CheckInDto checkInDto = new CheckInDtoBuilder()
+      .withFlightId(FLIGHT_ID.toString())
+      .withSeat(seatDto)
+      .withPassanger(passangerDto)
+      .build();
+
+    when(pipeline.send((Command<Object>) anyObject()))
+      .thenReturn(checkInDto.seat);
+
+    CheckInController checkInController = new CheckInController(pipeline);
+    SeatDto seatDtoRes = checkInController.assignSeat(checkInDto);
+    assertNotNull(seatDtoRes);
+  }
 
   @Test
   void testTagBaggage() {
@@ -105,8 +126,7 @@ class CheckInControllerTests {
       .withPassanger(passangerDto)
       .build();
 
-    when(pipeline.send((Command<Object>) anyObject()))
-      .thenReturn(checkInDto);
+    when(pipeline.send((Command<Object>) anyObject())).thenReturn(checkInDto);
     CheckInController checkInController = new CheckInController(pipeline);
     CheckInDto checkInId = checkInController.createCheckIn(checkInDto);
     assertNotNull(checkInId);

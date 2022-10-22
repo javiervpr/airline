@@ -36,14 +36,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import repositories.*;
 
 @SpringBootApplication(
-        exclude = {
-                org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration.class,
-                org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration.class,
-                org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration.class
-        }
+  exclude = {
+    org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration.class,
+    org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration.class,
+    org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration.class,
+  }
 )
 @ComponentScan(
-  basePackages = { "controllers", "infraestructure.repositories", "use.cases", "event", "core" }
+  basePackages = {
+    "controllers", "infraestructure.repositories", "use.cases", "event", "core",
+  }
 )
 @EntityScan("infraestructure.model")
 @EnableJpaRepositories(basePackages = { "infraestructure.repositories" })
@@ -77,7 +79,9 @@ public class CheckInApiApplication {
   }
 
   @Bean(name = "ticketRepository")
-  public TicketRepository ticketRepository() { return new TicketJpaRepository(); }
+  public TicketRepository ticketRepository() {
+    return new TicketJpaRepository();
+  }
 
   @Bean
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
@@ -104,7 +108,6 @@ public class CheckInApiApplication {
       .with(middlewares::orderedStream);
   }
 
-
   @Value("${cloud.aws.region.static}")
   private String region;
 
@@ -122,28 +125,39 @@ public class CheckInApiApplication {
     return new QueueMessagingTemplate(amazonSQSAsync());
   }
 
-//  @Bean
-//  public QueueMessagingTemplate queueSNSMessagingTemplate() {
-//    return new QueueMessagingTemplate(amazonSNSAsync());
-//  }
+  //  @Bean
+  //  public QueueMessagingTemplate queueSNSMessagingTemplate() {
+  //    return new QueueMessagingTemplate(amazonSNSAsync());
+  //  }
 
   @Primary
   @Bean
   public AmazonSQSAsync amazonSQSAsync() {
-    return AmazonSQSAsyncClientBuilder.standard().withRegion(Regions.US_EAST_1)
-            .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey)))
-            .build();
+    return AmazonSQSAsyncClientBuilder
+      .standard()
+      .withRegion(Regions.US_EAST_1)
+      .withCredentials(
+        new AWSStaticCredentialsProvider(
+          new BasicAWSCredentials(awsAccessKey, awsSecretKey)
+        )
+      )
+      .build();
   }
 
   @Bean
   @Primary
-  public AmazonSNS amazonSNSAsync () {
-    return AmazonSNSAsyncClientBuilder.standard().withRegion(Regions.US_EAST_1)
-            .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(awsAccessKey, awsSecretKey)))
-            .build();
+  public AmazonSNS amazonSNSAsync() {
+    return AmazonSNSAsyncClientBuilder
+      .standard()
+      .withRegion(Regions.US_EAST_1)
+      .withCredentials(
+        new AWSStaticCredentialsProvider(
+          new BasicAWSCredentials(awsAccessKey, awsSecretKey)
+        )
+      )
+      .build();
   }
 }
-
 //@Configuration
 //class SQSConfig {
 //

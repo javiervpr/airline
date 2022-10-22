@@ -1,9 +1,11 @@
 package dtos;
 
-import java.util.ArrayList;
+import annotations.Generated;
 import java.util.List;
 
+@Generated
 public class Information {
-    public List<SeatDto> avaibleSeats;
-    public List<TicketsDto> tickets;
+
+  public List<SeatDto> avaibleSeats;
+  public List<TicketsDto> tickets;
 }

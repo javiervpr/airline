@@ -23,7 +23,6 @@ public class BaggageJpaRepository implements BaggageRepository {
   @Autowired
   private CheckInCrudRepository checkInCrudRepository;
 
-
   @Override
   public UUID update(Baggage baggage) {
     CheckInJpaModel checkInJpaModel = checkInCrudRepository
@@ -58,11 +57,15 @@ public class BaggageJpaRepository implements BaggageRepository {
     return baggages;
   }
 
-  public void setBaggageCrudRepository(BaggageCrudRepository baggageCrudRepository) {
+  public void setBaggageCrudRepository(
+    BaggageCrudRepository baggageCrudRepository
+  ) {
     this.baggageCrudRepository = baggageCrudRepository;
   }
 
-  public void setCheckInCrudRepository(CheckInCrudRepository checkInCrudRepository) {
+  public void setCheckInCrudRepository(
+    CheckInCrudRepository checkInCrudRepository
+  ) {
     this.checkInCrudRepository = checkInCrudRepository;
   }
 }
