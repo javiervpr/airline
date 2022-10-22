@@ -1,7 +1,9 @@
 package dtos;
 
+import annotations.Generated;
 import java.util.Date;
 
+@Generated
 public class PassangerDto {
 
   public String id;

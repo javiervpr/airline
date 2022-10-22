@@ -42,9 +42,12 @@ public class SeatJpaRepository implements SeatRepository {
   }
 
   @Override
-  public List<Seat> findByFlightId(UUID flightId) throws BusinessRuleValidationException {
+  public List<Seat> findByFlightId(UUID flightId)
+    throws BusinessRuleValidationException {
     List<SeatJpaModel> jpaModels = seatCrudRepository.findByFlightId(flightId);
-    if ( jpaModels == null || jpaModels.isEmpty() ) return Collections.emptyList();
+    if (
+      jpaModels == null || jpaModels.isEmpty()
+    ) return Collections.emptyList();
     List<Seat> seats = new ArrayList<>();
     for (SeatJpaModel jpaModel : jpaModels) {
       seats.add(SeatUtils.jpaModelToSeat(jpaModel));

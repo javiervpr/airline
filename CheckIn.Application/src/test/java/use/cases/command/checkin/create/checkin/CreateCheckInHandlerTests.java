@@ -8,10 +8,9 @@ import static org.mockito.Mockito.when;
 import builder.CreateCheckInCommandBuilder;
 import builder.PassangerBuilder;
 import builder.SeatBuilder;
+import dtos.CheckInDto;
 import java.util.List;
 import java.util.UUID;
-
-import dtos.CheckInDto;
 import model.Passanger;
 import model.Seat;
 import model.SeatStatus;
@@ -76,7 +75,8 @@ class CreateCheckInHandlerTests {
         seatRepository,
         passangerRepository
       );
-      CheckInDto checkInId = handler.handle(request);
+      CheckInDto checkInId = new CheckInDto();
+      checkInId = handler.handle(request);
       assertNotNull(checkInId);
     });
   }

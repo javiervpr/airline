@@ -12,5 +12,5 @@ public interface SeatRepository {
     throws BusinessRuleValidationException;
 
   List<Seat> findByFlightId(UUID flightId)
-          throws BusinessRuleValidationException;
+    throws BusinessRuleValidationException;
 }

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import builder.CheckInBuilder;
 import builder.PassangerBuilder;
 import builder.SeatBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -71,8 +70,14 @@ class CheckInTests {
         .withStatus(SeatStatus.FREE)
         .build();
       UUID checkInId = UUID.randomUUID();
-      CheckIn checkIn =
-      new CheckIn(checkInId, FLIGHT_ID, List.of(seatEconomyFree), passanger, seatEconomyFree, new ArrayList<>());
+      CheckIn checkIn = new CheckIn(
+        checkInId,
+        FLIGHT_ID,
+        List.of(seatEconomyFree),
+        passanger,
+        seatEconomyFree,
+        new ArrayList<>()
+      );
       assertNotNull(checkIn);
       assertEquals(checkInId, checkIn.getId());
     });

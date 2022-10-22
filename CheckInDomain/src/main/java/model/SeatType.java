@@ -5,5 +5,5 @@ public enum SeatType {
   BUSINESS,
   ECONOMY,
   ASSISTANCE,
-  BLOCKED
+  BLOCKED,
 }

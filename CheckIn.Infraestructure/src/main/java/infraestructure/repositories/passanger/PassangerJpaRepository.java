@@ -4,7 +4,6 @@ import core.BusinessRuleValidationException;
 import dtos.PassangerDto;
 import infraestructure.model.PassangerJpaModel;
 import infraestructure.utils.PassangerUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -37,9 +36,11 @@ public class PassangerJpaRepository implements PassangerRepository {
 
   @Override
   public List<Passanger> getAll() throws BusinessRuleValidationException {
-    List<PassangerJpaModel> jpaModels = Streamable.of(passangerCrudRepository.findAll()).toList();
+    List<PassangerJpaModel> jpaModels = Streamable
+      .of(passangerCrudRepository.findAll())
+      .toList();
     List<Passanger> passengers = new ArrayList<>();
-    for (PassangerJpaModel jpaModel: jpaModels) {
+    for (PassangerJpaModel jpaModel : jpaModels) {
       passengers.add(PassangerUtils.jpaModelToPassanger(jpaModel));
     }
     return passengers;

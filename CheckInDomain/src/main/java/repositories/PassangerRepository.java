@@ -1,7 +1,6 @@
 package repositories;
 
 import core.BusinessRuleValidationException;
-
 import java.util.List;
 import java.util.UUID;
 import model.Passanger;
